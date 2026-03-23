@@ -22,6 +22,8 @@ MUST read the corresponding instruction file to ensure compliance.
 
 - **Coding & Style**: [.agents/instructions/coding-standards.instructions.md](.agents/instructions/coding-standards.instructions.md)
   (Load for `**/*.py`)
+- **Workflow & Git**: [.agents/instructions/workflow.instructions.md](.agents/instructions/workflow.instructions.md)
+  (Load for all tasks)
 - **Documentation**: [.agents/instructions/documentation.instructions.md](.agents/instructions/documentation.instructions.md)
   (Load for `**/*.{py,md}`)
 - **Plotting**: [.agents/instructions/plotting.instructions.md](.agents/instructions/plotting.instructions.md)

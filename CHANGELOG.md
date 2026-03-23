@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Workflow Instructions**: Added mandatory instructions for AI agents to
+  maintain `CHANGELOG.md` with each significant change, ensuring a transparent
+  and up-to-date project history without additional tools.
 - **AI Agent Workflow**: Introduced a tool-agnostic agent instruction set to
   ensure high-quality code and consistent scientific visualization across
   different AI assistants (Copilot, Claude, Gemini).

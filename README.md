@@ -181,7 +181,7 @@ All scripts output to the `output` directory.
 - Run ty type checks:
 
   ```bash
-  uv run ty .
+  uv run ty check .
   ```
 
 ## Notes

@@ -84,7 +84,7 @@ def configure_matplotlib_style(
             styles = "no-latex"
 
     # Apply scienceplots style
-    plt.style.use(styles)  # type: ignore
+    plt.style.use(styles)
 
     # Build LaTeX preamble
     preamble = (

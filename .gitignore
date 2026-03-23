@@ -45,3 +45,16 @@ Thumbs.db
 # Sensitive files (if you add them)
 .env
 .env.* 
+
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+.flake.nix.swp
+*swp
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

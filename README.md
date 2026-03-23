@@ -19,10 +19,27 @@ container and write the results to an `output` directory.
   24h time axes, and adding statistical annotations.
 - `profile_analysis.py`: Specialized functions for time-series visualization,
   including quantile shading and grid generation.
+- `.agents/`: Modular AI agent instructions and skills for tool-agnostic
+  development (Copilot, Claude, Gemini, etc.).
 - `Dockerfile`: Image that includes LaTeX, fonts, and an isolated venv with
   `uv`.
 - `entrypoint.sh`: Runs `uv sync` (if requirements exist) and drops you into a
   fish shell.
+
+## AI Agent Workflow
+
+This repository uses a tool-agnostic agent workflow to ensure high-quality
+code and consistent scientific visualization across different AI assistants
+(GitHub Copilot, Claude Code, Gemini CLI, etc.).
+
+- **Mandates**: Core project rules are defined in `AGENTS.md`.
+- **Instructions**: Specific guidelines for coding, plotting, and data handling
+  reside in `.agents/instructions/`.
+- **Skills**: High-level task workflows (e.g., creating a new visualization)
+  are defined in `.agents/skills/`.
+
+AI agents are expected to read these files to align with the project's
+standards.
 
 ## Plotting Standards
 
@@ -183,11 +200,11 @@ All scripts output to the `output` directory.
 ## Usage in other projects
 
 You can copy `MatplotlibStyle.py` to your project to use the standardized
-plotting style. Additionally, you can include The Project Standards - Plotting
-section from the `copilot-instructions.md` file in your project root (or
-`.github/` folder) to provide context-aware coding guidelines for GitHub
-Copilot. This ensures that generated code follows the project's style, path
-handling, and plotting standards.
+plotting style. Additionally, you can include the `AGENTS.md` and `.agents/`
+folder in your project root to provide context-aware coding guidelines for AI
+agents (GitHub Copilot, Claude Code, Gemini CLI, etc.). This ensures that
+generated code follows the project's style, path handling, and plotting
+standards.
 
 ## Contact
 

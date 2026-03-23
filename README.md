@@ -14,6 +14,7 @@ container and write the results to an `output` directory.
 - `example_energy.py`: Generates energy-specific plots (24h load profiles,
   seasonal grids) demonstrating advanced features like quantile shading and
   statistical annotation boxes.
+- `CHANGELOG.md`: Tracks project changes and updates.
 - `MatplotlibStyle.py`: Custom Matplotlib stylesheet and configuration.
 - `plotting_utils.py`: Standardized utilities for saving plots, configuring
   24h time axes, and adding statistical annotations.

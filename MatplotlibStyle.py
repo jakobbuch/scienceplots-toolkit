@@ -34,7 +34,7 @@ def configure_matplotlib_style(
     grid_linewidth: float = 3,
     lines_linewidth: float = 4,
     fontsize: float = 26,
-    figsize: tuple[float, float] = (12, 6),
+    figsize: tuple[float, float] = (16, 10),
     font: Literal["serif", "sans-serif"] | str = "serif",
     sans_serif_math: bool = False,
     cmap_name: str = DEFAULT_QUAL_CMAP_NAME,
@@ -61,7 +61,7 @@ def configure_matplotlib_style(
             See: https://cmap-docs.readthedocs.io/en/latest/catalog/qualitative/seaborn%3Atab10_new/
         use_latex: If True, use LaTeX for text rendering. If False (default), use
             'no-latex' style and disable usetex.
-        grid: Whether to enable axis gridlines by default (`axes.grid` rcParam).
+        grid: Whether to enable axis gridlines by default (`axes.grid` rcParam). Disable for stuff like Heatmaps.
         legend_framealpha: Alpha (transparency) of the legend background, 0.0
             (transparent) to 1.0 (opaque). Default 1 because of legend_shadow.
         legend_shadow: If True (default), draw a shadow behind the legend frame.

@@ -99,34 +99,32 @@ def configure_matplotlib_style(
         r"\usepackage{siunitx}"
         r"\usepackage{graphicx}"
     )
-    if sans_serif_math:
-        # Switch both text and math to sans-serif in LaTeX
-        preamble += (
-            r"\usepackage{sansmath}\sansmath\renewcommand{\familydefault}{\sfdefault}"
-        )
 
-    # reference: https://matplotlib.org/stable/users/explain/customizing.html
-    rc: dict = {
-        "font.size": fontsize,  # The font.size property is the default font size for text, given in points.
-        "text.usetex": use_latex,  # use latex for all text handling.
-        "text.latex.preamble": preamble,  # text.latex.preamble is a single line of LaTeX code that will be passed on to the LaTeX system.
-        "font.family": font,  # The font.family property can take either a single or multiple entries of any combination of concrete font names
-        "axes.titlesize": fontsize + 4,  # font size of the axes title
-        "axes.labelsize": fontsize + 2,  # font size of the x and y labels
-        "axes.axisbelow": False,  # draw axis gridlines and ticks: below patches (True), above patches but below lines ('line'), above all (False)
-        # Do not set "axes.grid" here when grid is True; leave it to the applied style.
-        "axes.prop_cycle": cycler(
-            "color", default_colors
-        ),  # colour cycle for plot lines as list of string colour specs: single letter, long name, or web-style hex
-        "grid.linewidth": grid_linewidth,  # in points
-        "lines.linewidth": lines_linewidth,  # line width in points
-        "legend.handlelength": 1.5,  # the length of the legend lines
-        "legend.shadow": legend_shadow,  # if True, give background a shadow effect
-        "legend.framealpha": legend_framealpha,  # legend patch transparency
-        "figure.titlesize": fontsize
-        + 4,  # size of the figure title (``Figure.suptitle()``)
-        "figure.labelsize": fontsize
-        + 2,  # size of the figure label (``Figure.sup[x|y]label()``)
+    # Configure matplotlib rcParams
+    rc = {
+        "font.size": fontsize,
+        "font.family": font,
+        "font.serif": [
+            "Times New Roman",
+            "DejaVu Serif",
+            "Bitstream Vera Serif",
+        ],
+        "font.sans-serif": [
+            "Arial",
+            "Helvetica",
+            "DejaVu Sans",
+            "Bitstream Vera Sans",
+        ],
+        "axes.prop_cycle": cycler(color=default_colors),
+        "lines.linewidth": lines_linewidth,
+        "axes.linewidth": grid_linewidth,
+        "grid.linewidth": grid_linewidth,
+        "legend.framealpha": legend_framealpha,
+        "legend.shadow": legend_shadow,
+        "mathtext.fontset": "custom" if not use_latex else "stix",
+        "mathtext.rm": "Times New Roman",
+        "mathtext.it": "Times New Roman:italic",
+        "mathtext.bf": "Times New Roman:bold",
         "figure.figsize": figsize,  # figure size in inches
         "figure.constrained_layout.use": True,  # When True, automatically make plot elements fit on the figure, is the new and improved tight_layout
     }
@@ -137,3 +135,45 @@ def configure_matplotlib_style(
         rc["axes.grid"] = False
 
     plt.rcParams.update(rc)
+
+
+def get_figsize(
+    n_rows: int = 1, n_cols: int = 1, base_size: tuple[float, float] = (16, 10)
+) -> tuple[float, float]:
+    """Calculate appropriate figure size based on number of subplots.
+
+    Scales the base size to avoid overly large figures for single plots
+    while maintaining good proportions for multi-panel layouts.
+
+    Args:
+        n_rows: Number of rows of subplots.
+        n_cols: Number of columns of subplots.
+        base_size: Base figure size (width, height) in inches. Default (16, 10).
+
+    Returns:
+        Tuple of (width, height) scaled appropriately for the subplot count.
+
+    Examples:
+        >>> get_figsize(1, 1)  # Single plot - smaller
+        (8.0, 5.0)
+        >>> get_figsize(2, 2)  # 2x2 grid - base size
+        (16, 10)
+        >>> get_figsize(1, 3)  # 1x3 horizontal
+        (16, 5.0)
+    """
+    total_plots = n_rows * n_cols
+
+    # Single plot: use half the base size (more reasonable for single panels)
+    if total_plots == 1:
+        return (base_size[0] * 0.5, base_size[1] * 0.5)
+    elif n_rows == 1:
+        # Single row: scale width by columns, keep height reasonable
+        return (base_size[0] * min(n_cols * 0.5, 2), base_size[1] * 0.6)
+    elif n_cols == 1:
+        # Single column: scale height by rows, keep width reasonable
+        return (base_size[0] * 0.7, base_size[1] * min(n_rows * 0.6, 1.2))
+    else:
+        # Grid: scale based on total area needed
+        width_scale = min(n_cols, 2) * 0.5
+        height_scale = min(n_rows, 2) * 0.5
+        return (base_size[0] * width_scale, base_size[1] * height_scale)

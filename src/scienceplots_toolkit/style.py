@@ -94,7 +94,7 @@ def configure_matplotlib_style(
     use_latex: bool = False,
     grid: bool = True,
     legend_framealpha: float = 1.0,
-    legend_shadow: bool = False,  # Changed default to False (no black border)
+    legend_shadow: bool = False,  # Changed to False to avoid black border
 ) -> None:
     """Configure matplotlib style and register the default qualitative colormap.
 
@@ -117,9 +117,8 @@ def configure_matplotlib_style(
         grid: Whether to enable axis gridlines by default (`axes.grid` rcParam).
             Disable for stuff like Heatmaps.
         legend_framealpha: Alpha (transparency) of the legend background, 0.0
-            (transparent) to 1.0 (opaque). Default 1.0 for solid background.
-        legend_shadow: If True, draw a shadow behind the legend frame.
-            Default is False to avoid black border appearance.
+            (transparent) to 1.0 (opaque). Default 1 because of legend_shadow.
+        legend_shadow: If True (default), draw a shadow behind the legend frame.
 
     """
     # Reset to default matplotlib style before applying new styles
@@ -149,36 +148,36 @@ def configure_matplotlib_style(
         r"\usepackage{siunitx}"
         r"\usepackage{graphicx}"
     )
+    if sans_serif_math:
+        # Switch both text and math to sans-serif in LaTeX
+        preamble += (
+            r"\usepackage{sansmath}\sansmath\renewcommand{\familydefault}{\sfdefault}"
+        )
 
-    # Configure matplotlib rcParams
-    rc = {
-        "font.size": fontsize,
-        "font.family": font,
-        "font.serif": [
-            "Times New Roman",
-            "DejaVu Serif",
-            "Bitstream Vera Serif",
-        ],
-        "font.sans-serif": [
-            "Arial",
-            "Helvetica",
-            "DejaVu Sans",
-            "Bitstream Vera Sans",
-        ],
-        "axes.prop_cycle": cycler(color=default_colors),
-        "lines.linewidth": lines_linewidth,
-        "axes.linewidth": grid_linewidth,
-        "grid.linewidth": grid_linewidth,
-        "legend.framealpha": legend_framealpha,
-        "legend.shadow": legend_shadow,  # Default False - no black border
-        "legend.edgecolor": 'black',  # Explicit black edge for legend
-        "legend.fancybox": True,  # Rounded corners on legend
-        "figure.figsize": figsize,
-        "figure.constrained_layout.use": True,
-        "figure.facecolor": 'white',  # Explicit white figure background
-        "figure.edgecolor": 'white',  # No black border on figure
-        "axes.facecolor": 'white',  # Explicit white axes background
-        "axes.edgecolor": 'black',  # Black axes border (standard)
+    # reference: https://matplotlib.org/stable/users/explain/customizing.html
+    rc: dict = {
+        "font.size": fontsize,  # The font.size property is the default font size for text, given in points.
+        "text.usetex": use_latex,  # use latex for all text handling.
+        "text.latex.preamble": preamble,  # text.latex.preamble is a single line of LaTeX code that will be passed on to the LaTeX system.
+        "font.family": font,  # The font.family property can take either a single or multiple entries of any combination of concrete font names
+        "axes.titlesize": fontsize + 4,  # font size of the axes title
+        "axes.labelsize": fontsize + 2,  # font size of the x and y labels
+        "axes.axisbelow": False,  # draw axis gridlines and ticks: below patches (True), above patches but below lines ('line'), above all (False)
+        # Do not set "axes.grid" here when grid is True; leave it to the applied style.
+        "axes.prop_cycle": cycler(
+            "color", default_colors
+        ),  # colour cycle for plot lines as list of string colour specs: single letter, long name, or web-style hex
+        "grid.linewidth": grid_linewidth,  # in points
+        "lines.linewidth": lines_linewidth,  # line width in points
+        "legend.handlelength": 1.5,  # the length of the legend lines
+        "legend.shadow": legend_shadow,  # if True, give background a shadow effect
+        "legend.framealpha": legend_framealpha,  # legend patch transparency
+        "figure.titlesize": fontsize
+        + 4,  # size of the figure title (``Figure.suptitle()``)
+        "figure.labelsize": fontsize
+        + 2,  # size of the figure label (``Figure.sup[x|y]label()``)
+        "figure.figsize": figsize,  # figure size in inches
+        "figure.constrained_layout.use": True,  # When True, automatically make plot elements fit on the figure, is the new and improved tight_layout
     }
 
     # Only explicitly disable the axes grid if the user requested grid=False.

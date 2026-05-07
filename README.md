@@ -1,8 +1,8 @@
 # SciencePlots Toolkit
 
 [![PyPI - Version](https://img.shields.io/pypi/v/scienceplots-toolkit)](https://pypi.org/project/scienceplots-toolkit)
-[![Python Version](https://img.shields.io/pypi/pyversions/scienceplots-toolkit)](https://pypi.org/project/scienceplots-toolkit)
-[![License](https://img.shields.io/pypi/l/scienceplots-toolkit)](https://github.com/jakobbuch/scienceplots-toolkit/blob/main/LICENSE)
+[![Python Version](https://img.shields.io/pypi/pyversions/scienceplots-toolkit?cache=1778169298)](https://pypi.org/project/scienceplots-toolkit)
+[![License](https://img.shields.io/pypi/l/scienceplots-toolkit?cache=1778169298)](https://github.com/jakobbuch/scienceplots-toolkit/blob/main/LICENSE)
 
 Publication-quality Matplotlib plotting utilities with SciencePlots styles and LaTeX typesetting.
 

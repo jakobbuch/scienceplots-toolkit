@@ -60,6 +60,7 @@ trap cleanup EXIT
 log_info "Creating virtual environment..."
 cd "$TEST_DIR"
 uv venv .test-venv
+# shellcheck disable=SC1091
 source .test-venv/bin/activate
 
 # Install from TestPyPI

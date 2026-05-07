@@ -4,7 +4,7 @@ This document outlines the complete workflow for publishing scienceplots-toolkit
 
 ---
 
-## ✅ Pre-Publication Checklist
+## Pre-Publication Checklist
 
 ### 1. Package Structure Verification
 
@@ -50,7 +50,7 @@ This document outlines the complete workflow for publishing scienceplots-toolkit
 
 ---
 
-## 📋 Publication Workflow
+## Publication Workflow
 
 ### Phase 1: Final Verification (Local)
 
@@ -380,7 +380,7 @@ uv run pip search scienceplots-toolkit  # (deprecated but still works sometimes)
 
 ---
 
-## 📊 Version Management
+## Version Management
 
 ### Current Setup
 
@@ -434,7 +434,7 @@ git push origin v0.1.1
 
 ---
 
-## 🚀 Quick Reference Commands
+## Quick Reference Commands
 
 ```bash
 # Build package

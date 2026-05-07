@@ -8,12 +8,12 @@ Publication-quality Matplotlib plotting utilities with SciencePlots styles and L
 
 ## Features
 
-- 🎨 **Pre-configured SciencePlots styles** with professional defaults
-- 📐 **LaTeX typesetting** for mathematical expressions and units
-- ⏱️ **24-hour time axis** utilities for daily profiles
-- 📊 **Statistical annotations** for average/peak values
-- 📈 **Quantile shading** for uncertainty visualization
-- 🎯 **Multi-panel grid** generation for comparative plots
+- **Pre-configured SciencePlots styles** with professional defaults
+- **LaTeX typesetting** for mathematical expressions and units
+- **24-hour time axis** utilities for daily profiles
+- **Statistical annotations** for average/peak values
+- **Quantile shading** for uncertainty visualization
+- **Multi-panel grid** generation for comparative plots
 
 ## Installation
 

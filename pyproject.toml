@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scienceplots-toolkit"
+dynamic = ["version"]
+description = "Publication-quality Matplotlib plotting utilities with SciencePlots styles and LaTeX typesetting"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = [
+    "cmap>=0.6.2",
+    "matplotlib>=3.10.7",
+    "scienceplots>=2.1.1",
+]
+
+authors = [
+    { name = "Jakob Buchmeier", email = "jakob.buchmeier@tuwien.ac.at" },
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/jakobbuch/scienceplots-toolkit"
+"Bug Tracker" = "https://github.com/jakobbuch/scienceplots-toolkit/issues"
+Source = "https://github.com/jakobbuch/scienceplots-toolkit"
+Changelog = "https://github.com/jakobbuch/scienceplots-toolkit/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.4",
+    "ty",
+    "pre-commit>=4.3.0",
+]
+tests = [
+    "pytest>=8",
+    "pytest-cov>=4",
+    "numpy>=1.24",
+]
+
+[dependency-groups]
+test = [
+    "pytest>=8",
+    "pytest-cov>=4",
+    "numpy>=1.24",
+]
+dev = [
+    { include-group = "test" },
+    "ruff>=0.4",
+    "ty",
+    "pre-commit>=4.3.0",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scienceplots_toolkit"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]  # Line length (handled by formatter)
+
+[tool.ruff.lint.per-file-ignores]
+"src/scienceplots_toolkit/__init__.py" = ["F401", "D104"]
+
+[tool.ty]
+[tool.ty.environment]
+python-version = "3.12"

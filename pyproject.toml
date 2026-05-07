@@ -83,4 +83,5 @@ ignore = ["E501"]  # Line length (handled by formatter)
 "src/scienceplots_toolkit/__init__.py" = ["F401", "D104"]
 
 [tool.ty]
+[tool.ty.environment]
 python-version = "3.12"

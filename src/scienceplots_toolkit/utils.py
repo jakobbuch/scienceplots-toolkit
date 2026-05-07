@@ -1,5 +1,6 @@
 """Utility functions for saving and configuring plots."""
 
+import logging
 from pathlib import Path
 
 from matplotlib.axes import Axes
@@ -7,24 +8,31 @@ from matplotlib.figure import Figure
 
 # Constants
 OUTPUT_DIR = Path("output")
+logger = logging.getLogger(__name__)
 
 
-def save_plot(fig: Figure, filename_base: str, dpi: int = 300) -> None:
+def save_plot(
+    fig: Figure, filename_base: str, output_dir: Path | None = None, dpi: int = 300
+) -> None:
     """Save current figure to PNG and PDF.
 
     Args:
         fig: Figure to save.
         filename_base: Base filename (no extension).
+        output_dir: Directory to save files. Defaults to OUTPUT_DIR.
         dpi: Resolution for the PNG output.
 
     """
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    if output_dir is None:
+        output_dir = OUTPUT_DIR
 
-    png_path = OUTPUT_DIR / f"{filename_base}.png"
-    pdf_path = OUTPUT_DIR / f"{filename_base}.pdf"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    png_path = output_dir / f"{filename_base}.png"
+    pdf_path = output_dir / f"{filename_base}.pdf"
     fig.savefig(png_path, dpi=dpi)
     fig.savefig(pdf_path, dpi=dpi)
-    print(f"Saved {png_path} and {pdf_path}")
+    logger.info("Saved %s and %s", png_path, pdf_path)
 
 
 def configure_24h_axis(ax: Axes) -> None:

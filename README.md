@@ -169,21 +169,6 @@ Or via CLI:
 uv run examples/example_basic.py --latex
 ```
 
-## Docker Usage
-
-For consistent LaTeX rendering without local installation:
-
-```bash
-# Build the Docker image
-docker build -t scienceplots-toolkit .
-
-# Run the container
-docker run -it --rm -v "$PWD":/app scienceplots-toolkit
-
-# Inside the container
-uv run examples/example_basic.py --latex
-```
-
 ## Project Structure
 
 ```text
@@ -200,8 +185,6 @@ scienceplots-toolkit/
 ├── pyproject.toml
 ├── README.md
 └── LICENSE
-```
-
 ## Development
 
 ### Setup

@@ -102,7 +102,7 @@ from scienceplots_toolkit.utils import configure_24h_axis, add_stats_box
 
 - **Type hints**: Use modern type hints (`list[str]`, `tuple[float, ...]`)
 - **Strings**: Use f-strings for formatting
-- **Spelling**: Use British English in docstrings (e.g., "standardise", "colour")
+- **Spelling**: Use English in docstrings
 - **Docstrings**: Include Args sections for all functions
 - **LaTeX labels**: Use raw strings: `r"$\sin(x)$"`, `r"Power (kW)"`
 
@@ -180,8 +180,7 @@ if __name__ == "__main__":
 
 Before considering a visualization or script complete:
 
-- [ ] Paths use `pathlib.Path` (not strings or `os.chdir()`)
-- [ ] British English spelling in docstrings
+- [ ] English spelling in docstrings
 - [ ] Matplotlib Object-Oriented API used (`fig, ax = plt.subplots()`)
 - [ ] `configure_matplotlib_style()` called at start
 - [ ] LaTeX math mode for labels and units
@@ -190,7 +189,6 @@ Before considering a visualization or script complete:
 - [ ] Type hints present on all functions
 - [ ] Docstrings with Args sections
 - [ ] Script works from any execution directory
-- [ ] No `os.chdir()` or `sys.path.insert()` calls
 
 ## Bundled Resources
 

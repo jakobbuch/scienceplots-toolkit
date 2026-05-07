@@ -205,6 +205,23 @@ uv run pytest tests/ -v
 uv run ruff format .
 uv run ruff check .
 uv run ty check .
+
+## Git Workflow
+
+This project uses a dual-remote workflow:
+- **Phabricator** (`origin`): Full development history
+- **GitHub** (`github`): Clean release history
+
+See [GIT_WORKFLOW.md](GIT_WORKFLOW.md) for details.
+
+```bash
+# Daily development (Phabricator)
+git checkout master
+git push origin master
+
+# Publish release (GitHub)
+git checkout release
+git push github release --force --tags
 ```
 
 ## Acknowledgments

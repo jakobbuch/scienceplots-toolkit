@@ -220,7 +220,7 @@ git checkout master
 git push origin master
 
 # Publish release (GitHub)
-git checkout release
+git checkout main
 git push github release --force --tags
 ```
 

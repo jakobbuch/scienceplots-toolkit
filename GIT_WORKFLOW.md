@@ -35,9 +35,9 @@ github    git@github.com:jakobbuch/scienceplots-toolkit.git
 - **History**: Complete development history with all commits
 - **Push target**: Phabricator only
 
-### `release` Branch (Publication)
+### `main` Branch (Publication)
 
-- **Tracks**: `github/release` (GitHub)
+- **Tracks**: `github/main` (GitHub)
 - **Purpose**: Publication-ready commits, clean release history
 - **History**: Curated, minimal commits for releases
 - **Push target**: GitHub only
@@ -57,7 +57,7 @@ github    git@github.com:jakobbuch/scienceplots-toolkit.git
 Maintain two parallel branches:
 
 1. **`master`** on Phabricator: Full development history (never rewritten)
-2. **`release`** on GitHub: Clean release history (can be force-pushed)
+2. **`main`** on GitHub: Clean release history (can be force-pushed)
 
 ### Benefits
 
@@ -99,7 +99,7 @@ git pull origin master
 
 ```bash
 # Switch to release branch
-git checkout release
+git checkout main
 
 # Option A: Reset to specific commit from master
 git log master --oneline  # Find the release commit
@@ -133,7 +133,7 @@ git push github release --force --tags
 
 ```bash
 # Ensure you're on release branch
-git checkout release
+git checkout main
 
 # Build distribution
 uv build
@@ -174,20 +174,20 @@ Expected output:
 
 ```bash
 * master  0bfa237 [origin/master] chore: fix markdown duplicate heading
-  release e7f1259 [github/release] docs: update PyPI badge URL
+  release e7f1259 [github/main] docs: update PyPI badge URL
 ```bash
 
 ### Switch Between Branches in VS Code
 
 1. Click branch name in bottom-left status bar
-2. Select `master` or `release` from dropdown
+2. Select `master` or `main` from dropdown
 3. VS Code will switch context automatically
 
 ### Update Release Branch from Master
 
 ```bash
 # When master has new commits to include in next release
-git checkout release
+git checkout main
 git reset --hard master  # Or specific commit
 # Then tag and push as above
 ```bash
@@ -206,7 +206,7 @@ git commit -m "fix: resolve issue with X"
 git push origin master
 
 # Later, include in release
-git checkout release
+git checkout main
 git cherry-pick <commit-hash>
 git tag -a v0.1.2 -m "v0.1.2 - Bugfix release"
 git push github release --force --tags
@@ -216,7 +216,7 @@ git push github release --force --tags
 
 ```bash
 # Create hotfix directly on release branch
-git checkout release
+git checkout main
 # Make fix
 git commit -m "fix: critical hotfix for Y"
 git tag -a v0.1.3 -m "v0.1.3 - Hotfix"
@@ -236,7 +236,7 @@ git checkout master
 # ... multiple commits over time ...
 
 # When ready for release
-git checkout release
+git checkout main
 git reset --hard master  # Include all recent work
 git tag -a v1.0.0 -m "v1.0.0 - Major release with features A, B, C"
 git push github release --force --tags
@@ -270,11 +270,11 @@ git branch -vv
 git checkout -b release
 
 # Set upstream tracking
-git branch --set-upstream-to=github/release release
+git branch --set-upstream-to=github/main release
 
 # Switch branches
 git checkout master
-git checkout release
+git checkout main
 ```bash
 
 ### Tag Operations
@@ -308,7 +308,7 @@ git push github :refs/tags/v1.0.0
 
 ```bash
 git branch --set-upstream-to=origin/master master   # For master
-git branch --set-upstream-to=github/release release  # For release
+git branch --set-upstream-to=github/main release  # For release
 ```bash
 
 ### Force Push Rejected by Phabricator
@@ -363,16 +363,16 @@ git push github release --force
 ### ✅ Do
 
 - Develop on `master`, push to Phabricator
-- Create releases on `release` branch, push to GitHub
+- Create releases on `main` branch, push to GitHub
 - Test on TestPyPI before production releases
 - Use annotated tags (`-a`) with meaningful messages
-- Keep `release` branch minimal (only release-ready commits)
+- Keep `main` branch minimal (only release-ready commits)
 
 ### ❌ Don't
 
 - Force push to Phabricator (`origin`)
 - Push `master` to GitHub
-- Push `release` to Phabricator
+- Push `main` to Phabricator
 - Create lightweight tags (use `-a` for annotated)
 - Forget to build (`uv build`) before uploading to PyPI
 
@@ -405,7 +405,7 @@ git checkout master
 git push origin master
 
 # Create release
-git checkout release
+git checkout main
 git reset --hard master          # Or cherry-pick
 git tag -a vX.Y.Z -m "Release"
 git push github release --force --tags

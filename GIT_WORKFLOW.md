@@ -95,7 +95,7 @@ git pull origin master
 
 ## Release Workflow
 
-### Step 1: Prepare Release Branch
+### Step 1: Prepare Main Branch
 
 ```bash
 # Switch to main branch
@@ -183,7 +183,7 @@ Expected output:
 2. Select `master` or `main` from dropdown
 3. VS Code will switch context automatically
 
-### Update Release Branch from Master
+### Update Main Branch from Master
 
 ```bash
 # When master has new commits to include in next release
@@ -387,7 +387,7 @@ Before publishing a release:
 - [ ] Type checking passes (`uv run ty check .`)
 - [ ] README updated with correct version
 - [ ] CHANGELOG.md updated (if maintained)
-- [ ] Release branch created/updated
+- [ ] Release branch (main) updated/updated
 - [ ] Annotated tag created with release notes
 - [ ] Uploaded to TestPyPI and verified
 - [ ] Uploaded to production PyPI

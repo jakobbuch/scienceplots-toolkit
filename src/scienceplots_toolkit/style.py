@@ -65,7 +65,7 @@ def get_figsize(
     base_width, base_height = base_size
     total_plots = n_rows * n_cols
 
-    # For single plots, use 75% of base size (not 50%)
+    # For single plots, use 75% of base size
     if total_plots == 1:
         return (base_width * 0.75, base_height * 0.75)
 
@@ -94,7 +94,7 @@ def configure_matplotlib_style(
     use_latex: bool = False,
     grid: bool = True,
     legend_framealpha: float = 1.0,
-    legend_shadow: bool = True,
+    legend_shadow: bool = False,  # Changed default to False (no black border)
 ) -> None:
     """Configure matplotlib style and register the default qualitative colormap.
 
@@ -117,8 +117,9 @@ def configure_matplotlib_style(
         grid: Whether to enable axis gridlines by default (`axes.grid` rcParam).
             Disable for stuff like Heatmaps.
         legend_framealpha: Alpha (transparency) of the legend background, 0.0
-            (transparent) to 1.0 (opaque). Default 1 because of legend_shadow.
-        legend_shadow: If True (default), draw a shadow behind the legend frame.
+            (transparent) to 1.0 (opaque). Default 1.0 for solid background.
+        legend_shadow: If True, draw a shadow behind the legend frame.
+            Default is False to avoid black border appearance.
 
     """
     # Reset to default matplotlib style before applying new styles
@@ -169,13 +170,15 @@ def configure_matplotlib_style(
         "axes.linewidth": grid_linewidth,
         "grid.linewidth": grid_linewidth,
         "legend.framealpha": legend_framealpha,
-        "legend.shadow": legend_shadow,
-        "mathtext.fontset": "custom" if not use_latex else "stix",
-        "mathtext.rm": "Times New Roman",
-        "mathtext.it": "Times New Roman:italic",
-        "mathtext.bf": "Times New Roman:bold",
-        "figure.figsize": figsize,  # figure size in inches
-        "figure.constrained_layout.use": True,  # When True, automatically make plot elements fit on the figure, is the new and improved tight_layout
+        "legend.shadow": legend_shadow,  # Default False - no black border
+        "legend.edgecolor": 'black',  # Explicit black edge for legend
+        "legend.fancybox": True,  # Rounded corners on legend
+        "figure.figsize": figsize,
+        "figure.constrained_layout.use": True,
+        "figure.facecolor": 'white',  # Explicit white figure background
+        "figure.edgecolor": 'white',  # No black border on figure
+        "axes.facecolor": 'white',  # Explicit white axes background
+        "axes.edgecolor": 'black',  # Black axes border (standard)
     }
 
     # Only explicitly disable the axes grid if the user requested grid=False.

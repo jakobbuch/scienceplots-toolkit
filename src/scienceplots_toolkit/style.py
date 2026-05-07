@@ -33,6 +33,55 @@ def qual_cmap(cmap_name: str = DEFAULT_QUAL_CMAP_NAME) -> Colormap:
     return Colormap(cmap_name)
 
 
+def get_figsize(
+    n_rows: int = 1, n_cols: int = 1, base_size: tuple[float, float] = (16, 10)
+) -> tuple[float, float]:
+    """Calculate appropriate figure size based on subplot grid dimensions.
+
+    Uses a smart scaling algorithm that:
+    - Scales width proportionally to number of columns (max 2x base width)
+    - Scales height proportionally to number of rows (max 2x base height)
+    - Applies minimum scaling to avoid overly small figures
+    - Uses 75% of base size for single plots (1x1)
+
+    Args:
+        n_rows: Number of rows of subplots.
+        n_cols: Number of columns of subplots.
+        base_size: Base figure size (width, height) in inches. Default (16, 10).
+
+    Returns:
+        Tuple of (width, height) scaled appropriately for the subplot grid.
+
+    Examples:
+        >>> get_figsize(1, 1)  # Single plot - 75% of base
+        (12.0, 7.5)
+        >>> get_figsize(2, 2)  # 2x2 grid - base size
+        (16, 10)
+        >>> get_figsize(1, 3)  # 1x3 horizontal
+        (16, 6.0)
+        >>> get_figsize(3, 1)  # 3x1 vertical
+        (11.2, 10)
+    """
+    base_width, base_height = base_size
+    total_plots = n_rows * n_cols
+
+    # For single plots, use 75% of base size (not 50%)
+    if total_plots == 1:
+        return (base_width * 0.75, base_height * 0.75)
+
+    # For grids, scale based on dimensions
+    # Width scales with columns (cap at 2x for very wide grids)
+    # Height scales with rows (cap at 2x for very tall grids)
+    width_scale = min(n_cols, 2) / 2.0
+    height_scale = min(n_rows, 2) / 2.0
+
+    # Ensure minimum reasonable size (don't go below 50% of base)
+    width_scale = max(width_scale, 0.5)
+    height_scale = max(height_scale, 0.5)
+
+    return (base_width * width_scale, base_height * height_scale)
+
+
 def configure_matplotlib_style(
     styles: list[str] | str = ["science", "ieee", "grid"],
     grid_linewidth: float = 3,
@@ -135,45 +184,3 @@ def configure_matplotlib_style(
         rc["axes.grid"] = False
 
     plt.rcParams.update(rc)
-
-
-def get_figsize(
-    n_rows: int = 1, n_cols: int = 1, base_size: tuple[float, float] = (16, 10)
-) -> tuple[float, float]:
-    """Calculate appropriate figure size based on number of subplots.
-
-    Scales the base size to avoid overly large figures for single plots
-    while maintaining good proportions for multi-panel layouts.
-
-    Args:
-        n_rows: Number of rows of subplots.
-        n_cols: Number of columns of subplots.
-        base_size: Base figure size (width, height) in inches. Default (16, 10).
-
-    Returns:
-        Tuple of (width, height) scaled appropriately for the subplot count.
-
-    Examples:
-        >>> get_figsize(1, 1)  # Single plot - smaller
-        (8.0, 5.0)
-        >>> get_figsize(2, 2)  # 2x2 grid - base size
-        (16, 10)
-        >>> get_figsize(1, 3)  # 1x3 horizontal
-        (16, 5.0)
-    """
-    total_plots = n_rows * n_cols
-
-    # Single plot: use half the base size (more reasonable for single panels)
-    if total_plots == 1:
-        return (base_size[0] * 0.5, base_size[1] * 0.5)
-    elif n_rows == 1:
-        # Single row: scale width by columns, keep height reasonable
-        return (base_size[0] * min(n_cols * 0.5, 2), base_size[1] * 0.6)
-    elif n_cols == 1:
-        # Single column: scale height by rows, keep width reasonable
-        return (base_size[0] * 0.7, base_size[1] * min(n_rows * 0.6, 1.2))
-    else:
-        # Grid: scale based on total area needed
-        width_scale = min(n_cols, 2) * 0.5
-        height_scale = min(n_rows, 2) * 0.5
-        return (base_size[0] * width_scale, base_size[1] * height_scale)

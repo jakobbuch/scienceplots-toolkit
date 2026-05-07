@@ -25,7 +25,6 @@ coverage.xml
 build/
 dist/
 *.egg-info/
-
 # Logs and runtime files
 *.log
 analysis.log
@@ -35,6 +34,13 @@ output/
 *.png
 *.pdf
 
+# Old redundant files (cleanup)
+example.py
+example_energy.py
+MatplotlibStyle.py
+plotting_utils.py
+profile_analysis.py
+requirements.txt
 # Editor / OS files
 .vscode/
 .idea/

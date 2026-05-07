@@ -98,7 +98,7 @@ git pull origin master
 ### Step 1: Prepare Release Branch
 
 ```bash
-# Switch to release branch
+# Switch to main branch
 git checkout main
 
 # Option A: Reset to specific commit from master
@@ -125,14 +125,14 @@ Changelog:
 ### Step 3: Push to GitHub
 
 ```bash
-# Push release branch and tags to GitHub
+# Push main branch and tags to GitHub
 git push github release --force --tags
 ```bash
 
 ### Step 4: Build and Upload to PyPI
 
 ```bash
-# Ensure you're on release branch
+# Ensure you're on main branch
 git checkout main
 
 # Build distribution
@@ -215,7 +215,7 @@ git push github release --force --tags
 ### Scenario 2: Hotfix for Released Version
 
 ```bash
-# Create hotfix directly on release branch
+# Create hotfix directly on main branch
 git checkout main
 # Make fix
 git commit -m "fix: critical hotfix for Y"
@@ -266,7 +266,7 @@ git push github release     # GitHub
 # List branches with tracking info
 git branch -vv
 
-# Create new release branch
+# Create new main branch
 git checkout -b release
 
 # Set upstream tracking
@@ -330,7 +330,7 @@ git push origin master --force
 **Fix**:
 
 ```bash
-# If you pushed release branch to Phabricator by mistake
+# If you pushed main branch to Phabricator by mistake
 git push origin :release  # Delete from Phabricator
 
 # If you pushed master to GitHub by mistake

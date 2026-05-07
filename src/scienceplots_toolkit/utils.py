@@ -26,6 +26,10 @@ def save_plot(
     if output_dir is None:
         output_dir = OUTPUT_DIR
 
+    # Ensure output_dir is a Path object
+    if isinstance(output_dir, str):
+        output_dir = Path(output_dir)
+
     output_dir.mkdir(parents=True, exist_ok=True)
 
     png_path = output_dir / f"{filename_base}.png"

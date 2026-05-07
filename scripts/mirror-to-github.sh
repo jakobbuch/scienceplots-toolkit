@@ -46,6 +46,10 @@ echo "  Mirror to GitHub"
 echo "========================================"
 echo ""
 
+# Store current branch to return to it later
+CURRENT_BRANCH=$(git branch --show-current)
+log_info "Current branch: $CURRENT_BRANCH"
+
 # Check if github remote exists
 if ! git remote | grep -q "^${GITHUB_REMOTE}$"; then
     log_warning "GitHub remote '$GITHUB_REMOTE' not configured"
@@ -68,6 +72,12 @@ fi
 log_info "Latest tag: $LATEST_TAG"
 echo ""
 
+# Switch to master branch for pushing
+if [[ "$CURRENT_BRANCH" != "master" ]]; then
+    log_info "Switching to master branch..."
+    git checkout master
+fi
+
 # Push master branch
 log_info "Pushing master branch to GitHub..."
 if git push "$GITHUB_REMOTE" master; then
@@ -82,6 +92,12 @@ if git push "$GITHUB_REMOTE" "$LATEST_TAG"; then
     log_success "Tag pushed"
 else
     die "Failed to push tag"
+fi
+
+# Switch back to original branch
+if [[ "$CURRENT_BRANCH" != "master" ]]; then
+    log_info "Returning to original branch: $CURRENT_BRANCH"
+    git checkout "$CURRENT_BRANCH"
 fi
 
 echo ""

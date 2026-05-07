@@ -1,212 +1,241 @@
-# SciencePlots + LaTeX example
+# SciencePlots Toolkit
 
-This example shows how to generate plots using the SciencePlots Matplotlib styles
-with LaTeX rendering. By default, LaTeX rendering is done using the Matplotlib
-interpreter, meaning it can run with just python installed provided in the
-pyproject.toml for uv or requirements.txt for pip. For more advanced LaTeX
-rendering for publications, you can run the scripts inside a provided Docker
-container and write the results to an `output` directory.
+[![PyPI - Version](https://img.shields.io/pypi/v/scienceplots-toolkit.svg)](https://pypi.org/project/scienceplots-toolkit)
+[![Python Version](https://img.shields.io/pypi/pyversions/scienceplots-toolkit)](https://pypi.org/project/scienceplots-toolkit)
+[![License](https://img.shields.io/pypi/l/scienceplots-toolkit)](https://github.com/jakobbuch/scienceplots-toolkit/blob/main/LICENSE)
 
-## Project layout
+Publication-quality Matplotlib plotting utilities with SciencePlots styles and LaTeX typesetting.
 
-- `example.py`: Generates standard scientific plots (line, scatter, heatmap,
-  annotated profiles) using the custom style.
-- `example_energy.py`: Generates energy-specific plots (24h load profiles,
-  seasonal grids) demonstrating advanced features like quantile shading and
-  statistical annotation boxes.
-- `CHANGELOG.md`: Tracks project changes and updates.
-- `MatplotlibStyle.py`: Custom Matplotlib stylesheet and configuration.
-- `plotting_utils.py`: Standardized utilities for saving plots, configuring
-  24h time axes, and adding statistical annotations.
-- `profile_analysis.py`: Specialized functions for time-series visualization,
-  including quantile shading and grid generation.
-- `.agents/`: Modular AI agent instructions and skills for tool-agnostic
-  development (Copilot, Claude, Gemini, etc.).
-- `Dockerfile`: Image that includes LaTeX, fonts, and an isolated venv with
-  `uv`.
-- `entrypoint.sh`: Runs `uv sync` (if requirements exist) and drops you into a
-  fish shell.
+## Features
 
-## AI Agent Workflow
+- 🎨 **Pre-configured SciencePlots styles** with professional defaults
+- 📐 **LaTeX typesetting** for mathematical expressions and units
+- ⏱️ **24-hour time axis** utilities for daily profiles
+- 📊 **Statistical annotations** for average/peak values
+- 📈 **Quantile shading** for uncertainty visualization
+- 🎯 **Multi-panel grid** generation for comparative plots
 
-This repository uses a tool-agnostic agent workflow to ensure high-quality
-code and consistent scientific visualization across different AI assistants
-(GitHub Copilot, Claude Code, Gemini CLI, etc.).
+## Installation
 
-- **Mandates**: Core project rules are defined in `AGENTS.md`.
-- **Instructions**: Specific guidelines for coding, plotting, and data handling
-  reside in `.agents/instructions/`.
-- **Skills**: High-level task workflows (e.g., creating a new visualization)
-  are defined in `.agents/skills/`.
-
-AI agents are expected to read these files to align with the project's
-standards.
-
-## Plotting Standards
-
-This project follows several core plotting standards:
-
-1. **Object-Oriented API**: Always use `fig, ax = plt.subplots()` instead of
-   `plt.plot()`.
-2. **24-Hour Time Axes**: Use `plotting_utils.configure_24h_axis(ax)` to
-   standardize horizontal axes for daily profiles (0-24h, 4h ticks).
-3. **Statistical Annotations**: Use `plotting_utils.add_stats_box(ax, ...)` to
-   display Average and Peak values in a consistent, readable format.
-4. **No Figure-Level Titles in Grids**: In multi-panel plots, use individual
-   subplot titles or a shared figure-level legend instead of `suptitle()`.
-5. **LaTeX for Units**: Always use LaTeX math mode for units (e.g.,
-   `r"Power (kW)"` or `r"Energy (kWh)"`) to ensure professional typesetting.
-6. **Quantile Shading**: Use `profile_analysis.plot_profile_with_quantiles` for
-   visualizing uncertainty (e.g., 10th-90th percentiles).
-
-## Local Usage
-
-You can run the scripts locally if you have `uv` installed.
+### From PyPI
 
 ```bash
-# Install dependencies locally
-uv sync
-
-# Run the standard example
-uv run example.py
-
-# Run the energy-specific example
-uv run example_energy.py
-
-# Run with LaTeX (requires local LaTeX installation)
-uv run example.py --latex
+pip install scienceplots-toolkit
 ```
 
-All scripts output to the `output` directory.
+### From source with uv
 
-## Container Usage
+```bash
+git clone https://github.com/jakobbuch/scienceplots-toolkit.git
+cd scienceplots-toolkit
+uv sync
+```
 
-### How the image behaves
+### From source with pip
 
-- The container installs the `uv` tool. When you mount your project into the
-  container at `/app`, uv will create and use a project-local virtual
-  environment at `/app/.venv`.
-- On startup the entry point:
-  - If `pyproject.toml` is present, compiles it to `requirements.txt` (for
-    reproducible pins).
-  - If `requirements.txt` is present, runs `uv sync --link-mode=copy` to
-    create the `.venv`.
-  - Finally drops you into a fish login shell for interactive development.
+```bash
+git clone https://github.com/jakobbuch/scienceplots-toolkit.git
+cd scienceplots-toolkit
+pip install -e .
+```
 
-### Build & Run
+## Quick Start
 
-1. Build the image, first build will take a while as it downloads latex:
+```python
+from scienceplots_toolkit import configure_matplotlib_style, save_plot
+from scienceplots_toolkit.utils import configure_24h_axis, add_stats_box
+import matplotlib.pyplot as plt
+import numpy as np
 
-   ```bash
-   docker build -t scienceplots .
-   ```
+# Configure the style
+configure_matplotlib_style(use_latex=True)
 
-2. Run the container; mount your project to `/app` (choose the command for your
-   shell):
+# Create a simple plot
+fig, ax = plt.subplots()
+x = np.linspace(0, 10, 400)
+ax.plot(x, np.sin(x), label=r"$\sin(x)$")
+ax.set_xlabel(r"Time (s)")
+ax.set_ylabel(r"Amplitude")
+ax.legend()
 
-   - Linux/macOS/Git Bash:
+# Save the plot
+save_plot(fig, "my_first_plot")
+```
 
-     ```bash
-     docker run -it --rm -v "$PWD":/app scienceplots
-     ```
+## Examples
 
-   - PowerShell:
+### Basic Plots
 
-     ```powershell
-     docker run -it --rm -v "${PWD}:/app" scienceplots
-     ```
+Run the basic examples to see all features in action:
 
-   - cmd.exe:
+```bash
+# Without LaTeX (uses mathtext)
+uv run examples/example_basic.py
 
-     ```cmd
-     docker run -it --rm -v "%cd%":/app scienceplots
-     ```
+# With LaTeX rendering (requires LaTeX installation)
+uv run examples/example_basic.py --latex
+```
 
-3. This enters you into a shell, here you can run the scripts with:
+### Energy Profiles
 
-   ```bash
-   # Run non-LaTeX examples
-   uv run example.py
+Advanced examples with 24h load profiles and quantile shading:
 
-   # Run with LaTeX enabled (pass through args to the script)
-   uv run example.py -- --latex
-   ```
+```bash
+uv run examples/example_energy.py
+uv run examples/example_energy.py --latex
+```
 
-4. Develop you own scripts, install packages with `uv add <package>`, and they
-   will be installed into the project-local venv at `.venv`.
+Generated plots are saved to the `output/` directory in both PNG and PDF formats.
 
-## uv commands (add, sync, remove)
+## API Reference
 
-- `uv add <package>`
-  - Installs a package into the project-local virtual env (.venv) and records
-    it for the project environment. Example:
+### Style Configuration
 
-    ```bash
-    uv add numpy
-    ```
+```python
+from scienceplots_toolkit import configure_matplotlib_style
 
-- `uv sync [--link-mode=copy]`
-  - Ensures the project venv matches the pinned requirements (creates .venv if
-    missing). The container entry point uses:
+configure_matplotlib_style(
+    styles=["science", "ieee", "grid"],  # SciencePlots styles to use
+    grid_linewidth=3,                     # Grid line width in points
+    lines_linewidth=4,                    # Plot line width in points
+    fontsize=26,                          # Base font size
+    figsize=(16, 10),                     # Default figure size (inches)
+    font="serif",                         # Font family
+    sans_serif_math=False,                # Use sans-serif for math
+    cmap_name="seaborn:tab10_new",       # Qualitative colormap
+    use_latex=False,                      # Enable LaTeX rendering
+    grid=True,                            # Enable axis gridlines
+    legend_framealpha=1.0,                # Legend background transparency
+    legend_shadow=True,                   # Legend shadow effect
+)
+```
 
-    ```bash
-    uv sync --link-mode=copy
-    ```
+### Utilities
 
-- `uv remove <package>`
-  - Removes a package from the project venv. Example:
+```python
+from scienceplots_toolkit.utils import (
+    save_plot,              # Save figure to PNG and PDF
+    configure_24h_axis,     # Set up 0-24h x-axis with 4h ticks
+    add_stats_box,          # Add average/peak annotation box
+)
 
-    ```bash
-    uv remove numpy
-    ```
+# Save a figure
+save_plot(fig, "my_plot", dpi=300)
 
-## Developer tooling: ruff, ty
+# Configure 24-hour axis
+configure_24h_axis(ax)
 
-- A basic ruff config has been added to the project root.
-- To install tooling into the project venv using uv:
+# Add statistics box
+add_stats_box(ax, avg=5.2, peak=12.3, unit=r"\text{kW}")
+```
 
-  ```bash
-  # install tooling into the project venv using uv
-  uv add ruff ty
-  ```
+### Analysis Tools
 
-### Quick commands
+```python
+from scienceplots_toolkit import (
+    plot_profile_with_quantiles,  # Plot mean with shaded quantiles
+    generate_profile_grid,        # Create multi-panel grid of plots
+)
 
-- Format & lint with ruff:
+# Plot with uncertainty shading
+plot_profile_with_quantiles(
+    ax, x, mean, q10, q90,
+    label="Load Profile",
+    color="C0"
+)
 
-  ```bash
-  uv run ruff format .
-  uv run ruff check .
-  ```
+# Create a 2x2 grid of subplots
+fig, axes = generate_profile_grid(n_rows=2, n_cols=2)
+```
 
-- Run ty type checks:
+## LaTeX Support
 
-  ```bash
-  uv run ty check .
-  ```
+The package supports two modes:
 
-## Notes
+1. **Mathtext (default)**: Uses Matplotlib's built-in math renderer. No external dependencies.
+2. **LaTeX**: Uses system LaTeX for professional typesetting. Requires:
+   - TeX Live or MiKTeX installation
+   - Packages: `amsmath`, `amssymb`, `amsfonts`, `textcomp`, `gensymb`, `siunitx`, `graphicx`
 
-- If you maintain dependencies in `pyproject.toml` and want pinned requirements
-  for `uv`, you can generate `requirements.txt` locally with:
+Enable LaTeX mode:
 
-  ```bash
-  uv pip compile pyproject.toml -o requirements.txt
-  ```
+```python
+configure_matplotlib_style(use_latex=True)
+```
 
-- The entry point will perform the compile step automatically when
-  `pyproject.toml` exists; otherwise it will proceed if `requirements.txt` is
-  present.
+Or via CLI:
 
-## Usage in other projects
+```bash
+uv run examples/example_basic.py --latex
+```
 
-You can copy `MatplotlibStyle.py` to your project to use the standardized
-plotting style. Additionally, you can include the `AGENTS.md` and `.agents/`
-folder in your project root to provide context-aware coding guidelines for AI
-agents (GitHub Copilot, Claude Code, Gemini CLI, etc.). This ensures that
-generated code follows the project's style, path handling, and plotting
-standards.
+## Docker Usage
+
+For consistent LaTeX rendering without local installation:
+
+```bash
+# Build the Docker image
+docker build -t scienceplots-toolkit .
+
+# Run the container
+docker run -it --rm -v "$PWD":/app scienceplots-toolkit
+
+# Inside the container
+uv run examples/example_basic.py --latex
+```
+
+## Project Structure
+
+```text
+scienceplots-toolkit/
+├── src/scienceplots_toolkit/
+│   ├── __init__.py          # Public API exports
+│   ├── style.py             # Matplotlib style configuration
+│   ├── utils.py             # Utility functions
+│   └── analysis.py          # Analysis and visualization tools
+├── examples/
+│   ├── example_basic.py     # Basic plotting examples
+│   └── example_energy.py    # Energy profile examples
+├── tests/
+├── pyproject.toml
+├── README.md
+└── LICENSE
+```
+
+## Development
+
+### Setup
+
+```bash
+uv sync --group dev
+```
+
+### Run Tests
+
+```bash
+uv run pytest tests/ -v
+```
+
+### Linting and Formatting
+
+```bash
+uv run ruff format .
+uv run ruff check .
+uv run ty check .
+```
+
+## Acknowledgments
+
+This package builds upon the excellent [SciencePlots](https://github.com/garrettj403/SciencePlots) library by John Garrett, which is also licensed under the MIT License.
+
+SciencePlots provides Matplotlib styles for publication-quality plots. For more information, see: <https://github.com/garrettj403/SciencePlots>
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## Contact
 
-Maintained by Jakob Buchmeier ([jakob.buchmeier@tuwien.ac.at](mailto:jakob.buchmeier@tuwien.ac.at))
+Jakob Buchmeier - <jakob.buchmeier@tuwien.ac.at>
+
+Project Link: <https://github.com/jakobbuch/scienceplots-toolkit>

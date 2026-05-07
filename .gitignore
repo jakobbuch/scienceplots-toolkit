@@ -58,3 +58,6 @@ devenv.local.yaml
 
 # pre-commit
 .pre-commit-config.yaml
+
+# devenv null directory (temporary interpreter issue)
+null/

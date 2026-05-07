@@ -94,7 +94,7 @@ def configure_matplotlib_style(
     use_latex: bool = False,
     grid: bool = True,
     legend_framealpha: float = 1.0,
-    legend_shadow: bool = False,  # Changed to False to avoid black border
+    legend_shadow: bool = True,  # Changed to False to avoid black border
 ) -> None:
     """Configure matplotlib style and register the default qualitative colormap.
 

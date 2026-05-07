@@ -76,3 +76,4 @@ null/
 
 *.pyc
 __pycache__/
+output/readme/*.pdf

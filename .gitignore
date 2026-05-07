@@ -71,3 +71,9 @@ null/
 
 # AI agent session data
 .sisyphus/
+
+# Generated example plots
+
+*.pyc
+__pycache__/
+output/readme/*.pdf

@@ -1,8 +1,8 @@
 # SciencePlots Toolkit
 
-[![PyPI - Version](https://img.shields.io/pypi/v/scienceplots-toolkit.svg)](https://pypi.org/project/scienceplots-toolkit)
-[![Python Version](https://img.shields.io/pypi/pyversions/scienceplots-toolkit)](https://pypi.org/project/scienceplots-toolkit)
-[![License](https://img.shields.io/pypi/l/scienceplots-toolkit)](https://github.com/jakobbuch/scienceplots-toolkit/blob/main/LICENSE)
+[![PyPI - Version](https://img.shields.io/pypi/v/scienceplots-toolkit)](https://pypi.org/project/scienceplots-toolkit)
+[![Python Version](https://img.shields.io/pypi/pyversions/scienceplots-toolkit?cache=1778169298)](https://pypi.org/project/scienceplots-toolkit)
+[![License](https://img.shields.io/pypi/l/scienceplots-toolkit?cache=1778169298)](https://github.com/jakobbuch/scienceplots-toolkit/blob/main/LICENSE)
 
 Publication-quality Matplotlib plotting utilities with SciencePlots styles and LaTeX typesetting.
 
@@ -14,6 +14,87 @@ Publication-quality Matplotlib plotting utilities with SciencePlots styles and L
 - **Statistical annotations** for average/peak values
 - **Quantile shading** for uncertainty visualization
 - **Multi-panel grid** generation for comparative plots
+
+## Example Plots
+
+See what you can create with `scienceplots-toolkit`:
+
+### Basic Line Plot
+
+![Basic Line Plot](output/readme/01_basic_line.png)
+
+```python
+from scienceplots_toolkit import configure_matplotlib_style, save_plot
+import matplotlib.pyplot as plt
+import numpy as np
+
+configure_matplotlib_style(use_latex=False)
+
+fig, ax = plt.subplots()
+x = np.linspace(0, 10, 100)
+ax.plot(x, np.sin(x), label=r'$\sin(x)$')
+ax.plot(x, np.cos(x), label=r'$\cos(x)$')
+ax.set_xlabel('Time (s)')
+ax.set_ylabel('Amplitude')
+ax.legend()
+save_plot(fig, 'my_plot')
+```
+
+### 24h Load Profile with Statistics
+
+![Daily Load Profile](output/readme/02_daily_profile.png)
+
+```python
+from scienceplots_toolkit.utils import configure_24h_axis, add_stats_box
+
+fig, ax = plt.subplots(figsize=(12, 6))
+hours = np.arange(24)
+load = 50 + 30 * np.sin(2 * np.pi * (hours - 6) / 24)
+ax.plot(hours, load, marker='o')
+configure_24h_axis(ax)
+ax.set_ylabel('Power (kW)')
+add_stats_box(ax, avg=50, peak=80, unit='kW')
+```
+
+### Quantile Shading for Uncertainty
+
+![Quantile Profile](output/readme/03_quantile_profile.png)
+
+```python
+from scienceplots_toolkit import plot_profile_with_quantiles
+
+fig, ax = plt.subplots()
+x = np.linspace(0, 24, 100)
+mean = 50 + 25 * np.sin(2 * np.pi * (x - 6) / 24)
+q10, q90 = mean * 0.85, mean * 1.15
+plot_profile_with_quantiles(ax, x, mean, q10, q90, label='Forecast')
+```
+
+### Multi-Panel Comparison
+
+![Multi-Panel Grid](output/readme/04_multi_panel.png)
+
+```python
+from scienceplots_toolkit import generate_profile_grid
+
+fig, axes = generate_profile_grid(n_rows=2, n_cols=2)
+for i, ax in enumerate(axes):
+    ax.plot(x, data[i])
+    ax.set_title(f'Scenario {i+1}')
+```
+
+### Measurements with Error Bars
+
+![Scatter with Error Bars](output/readme/05_scatter_errorbars.png)
+
+```python
+x = np.arange(10)
+y = 2 * x + 5 + np.random.normal(0, 2, 10)
+yerr = np.random.uniform(1, 3, 10)
+ax.errorbar(x, y, yerr=yerr, fmt='o', capsize=5)
+```
+
+> 💡 **Tip**: Run `uv run python examples/example_readme.py` to regenerate all example plots.
 
 ## Installation
 
@@ -205,23 +286,6 @@ uv run pytest tests/ -v
 uv run ruff format .
 uv run ruff check .
 uv run ty check .
-
-## Git Workflow
-
-This project uses a dual-remote workflow:
-- **Phabricator** (`origin`): Full development history
-- **GitHub** (`github`): Clean release history
-
-See [GIT_WORKFLOW.md](GIT_WORKFLOW.md) for details.
-
-```bash
-# Daily development (Phabricator)
-git checkout master
-git push origin master
-
-# Publish release (GitHub)
-git checkout main
-git push github release --force --tags
 ```
 
 ## Acknowledgments

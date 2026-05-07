@@ -5,14 +5,19 @@
 # This script:
 # 1. Validates the release is ready
 # 2. Builds distribution packages
-# 3. Mirrors to GitHub (if configured)
+# 3. Pushes clean history to GitHub (if configured)
 # 4. Uploads to PyPI (TestPyPI or Production)
 #
 # Usage:
 #   ./scripts/release.sh --help
 #   ./scripts/release.sh --test          # Upload to TestPyPI
 #   ./scripts/release.sh --production    # Upload to PyPI
-#   ./scripts/release.sh --skip-github   # Skip GitHub mirror
+#   ./scripts/release.sh --skip-github   # Skip GitHub push
+#
+# Repository Strategy:
+#   - TU Wien Phabricator (origin): Full development history
+#   - GitHub (github): Clean release history (single commit)
+#   - PyPI: Distribution packages
 #
 set -euo pipefail
 
@@ -194,15 +199,16 @@ if [[ "$SKIP_GITHUB" == "true" ]]; then
     log_warning "Skipping GitHub mirror (as requested)"
 else
     echo ""
-    log_info "Mirroring to GitHub..."
+    log_info "Pushing to GitHub (clean history)..."
     
     # Check if github remote exists
     if ! git remote | grep -q "^${GITHUB_REMOTE}$"; then
         log_warning "GitHub remote '$GITHUB_REMOTE' not configured"
+        echo ""
         echo "To add GitHub remote, run:"
         echo "  git remote add $GITHUB_REMOTE git@github.com:jakobbuch/$REPO_NAME.git"
         echo ""
-        read -p "Continue without GitHub mirror? [y/N] " -n 1 -r
+        read -p "Continue without GitHub push? [y/N] " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             die "Aborted by user"
@@ -213,12 +219,15 @@ else
             echo "[DRY RUN] Would push to GitHub:"
             echo "  git push $GITHUB_REMOTE master"
             echo "  git push $GITHUB_REMOTE $LATEST_TAG"
+            echo ""
+            echo "Note: This pushes your CLEAN history (single commit) to GitHub."
+            echo "      TU Wien Phabricator retains full development history."
         else
-            log_info "Pushing master branch to GitHub..."
+            log_info "Pushing master branch to GitHub (clean history)..."
             if ! git push "$GITHUB_REMOTE" master; then
                 die "Failed to push to GitHub"
             fi
-            log_success "Master branch pushed"
+            log_success "Master branch pushed (1 commit)"
             
             log_info "Pushing tag $LATEST_TAG to GitHub..."
             if ! git push "$GITHUB_REMOTE" "$LATEST_TAG"; then
@@ -227,8 +236,12 @@ else
             log_success "Tag pushed to GitHub"
             
             echo ""
-            log_success "GitHub mirror updated!"
-            echo "  https://github.com/jakobbuch/$REPO_NAME"
+            log_success "GitHub release published!"
+            echo "  Repository: https://github.com/jakobbuch/$REPO_NAME"
+            echo "  Release:    https://github.com/jakobbuch/$REPO_NAME/releases/tag/$LATEST_TAG"
+            echo ""
+            log_info "Note: GitHub shows clean history (1 commit)."
+            echo "      TU Wien Phabricator retains full development history."
         fi
     fi
 fi

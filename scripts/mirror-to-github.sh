@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 #
-# mirror-to-github.sh - Mirror release to GitHub
+# mirror-to-github.sh - Push clean release to GitHub
 #
 # Pushes current master branch and latest tag to GitHub remote.
+# This is designed for the "clean history" workflow where:
+#   - TU Wien Phabricator: Full development history
+#   - GitHub: Clean single-commit release
 #
 # Usage:
 #   ./scripts/mirror-to-github.sh
 #
+# Note: Ensure you're on the clean release branch before running!
 set -euo pipefail
 
 # Colors
@@ -81,11 +85,12 @@ else
 fi
 
 echo ""
-log_success "Mirror updated successfully!"
+log_success "GitHub release published!"
 echo ""
 echo "View on GitHub:"
-echo "  https://github.com/jakobbuch/$REPO_NAME"
+echo "  Repository: https://github.com/jakobbuch/$REPO_NAME"
+echo "  Release:    https://github.com/jakobbuch/$REPO_NAME/releases/tag/$LATEST_TAG"
 echo ""
-echo "Release page:"
-echo "  https://github.com/jakobbuch/$REPO_NAME/releases/tag/$LATEST_TAG"
+echo "Note: GitHub shows clean history (1 commit)."
+echo "      TU Wien Phabricator retains full development history."
 echo ""

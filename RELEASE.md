@@ -4,9 +4,22 @@ This document describes the release workflow for scienceplots-toolkit.
 
 ## Repository Structure
 
-- **Primary Repository**: TU Wien Phabricator (development, all commits)
-- **Public Mirror**: GitHub (releases only, public visibility)
+- **Primary Repository**: TU Wien Phabricator (full development history)
+- **Public GitHub**: Clean release history (single commit per release)
 - **Distribution**: PyPI (package installation)
+
+### History Strategy
+
+This project uses a **dual-history approach**:
+
+- **TU Wien Phabricator** (`origin`): Retains complete development history with all commits
+- **GitHub** (`github`): Shows only clean release commits (single commit per version)
+
+**Why?**
+
+- Academic transparency: Full history preserved at TU Wien
+- Professional appearance: GitHub shows polished releases
+- Easy maintenance: Simple workflow, no complex branching
 
 ## Quick Start
 
@@ -59,9 +72,8 @@ git tag -a v0.1.0 -m "Release message"
 
 # This will:
 # ✓ Build distribution packages
-# ✓ Mirror to GitHub (if remote configured)
+# ✓ Push clean history to GitHub (if remote configured)
 # ✓ Upload to TestPyPI
-```
 
 #### Step 3: Verify TestPyPI Release
 
@@ -107,19 +119,21 @@ Main release automation script.
 
 - `--test` - Upload to TestPyPI (default, recommended first)
 - `--production` - Upload to PyPI production
-- `--skip-github` - Skip GitHub mirror push
+- `--skip-github` - Skip GitHub push
 - `--skip-pypi` - Skip PyPI upload (build only)
 - `--dry-run` - Show what would be done without executing
 - `--help` - Show help message
 
-**What it does:**
+**What it does**:
 
 1. ✅ Validates release is ready (clean git, has tag)
 2. ✅ Builds distribution packages (`.tar.gz` and `.whl`)
 3. ✅ Checks package metadata with `twine check`
-4. ✅ Mirrors to GitHub (pushes master + tag)
+4. ✅ Pushes clean history to GitHub (master + tag)
 5. ✅ Uploads to PyPI (TestPyPI or Production)
 
+**Note**: The script pushes your **clean release branch** to GitHub, not the full
+development history. TU Wien Phabricator retains all commits.
 **Example workflows:**
 
 ```bash

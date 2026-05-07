@@ -33,6 +33,55 @@ def qual_cmap(cmap_name: str = DEFAULT_QUAL_CMAP_NAME) -> Colormap:
     return Colormap(cmap_name)
 
 
+def get_figsize(
+    n_rows: int = 1, n_cols: int = 1, base_size: tuple[float, float] = (16, 10)
+) -> tuple[float, float]:
+    """Calculate appropriate figure size based on subplot grid dimensions.
+
+    Uses a smart scaling algorithm that:
+    - Scales width proportionally to number of columns (max 2x base width)
+    - Scales height proportionally to number of rows (max 2x base height)
+    - Applies minimum scaling to avoid overly small figures
+    - Uses 75% of base size for single plots (1x1)
+
+    Args:
+        n_rows: Number of rows of subplots.
+        n_cols: Number of columns of subplots.
+        base_size: Base figure size (width, height) in inches. Default (16, 10).
+
+    Returns:
+        Tuple of (width, height) scaled appropriately for the subplot grid.
+
+    Examples:
+        >>> get_figsize(1, 1)  # Single plot - 75% of base
+        (12.0, 7.5)
+        >>> get_figsize(2, 2)  # 2x2 grid - base size
+        (16, 10)
+        >>> get_figsize(1, 3)  # 1x3 horizontal
+        (16, 6.0)
+        >>> get_figsize(3, 1)  # 3x1 vertical
+        (11.2, 10)
+    """
+    base_width, base_height = base_size
+    total_plots = n_rows * n_cols
+
+    # For single plots, use 75% of base size
+    if total_plots == 1:
+        return (base_width * 0.75, base_height * 0.75)
+
+    # For grids, scale based on dimensions
+    # Width scales with columns (cap at 2x for very wide grids)
+    # Height scales with rows (cap at 2x for very tall grids)
+    width_scale = min(n_cols, 2) / 2.0
+    height_scale = min(n_rows, 2) / 2.0
+
+    # Ensure minimum reasonable size (don't go below 50% of base)
+    width_scale = max(width_scale, 0.5)
+    height_scale = max(height_scale, 0.5)
+
+    return (base_width * width_scale, base_height * height_scale)
+
+
 def configure_matplotlib_style(
     styles: list[str] | str = ["science", "ieee", "grid"],
     grid_linewidth: float = 3,
@@ -45,7 +94,7 @@ def configure_matplotlib_style(
     use_latex: bool = False,
     grid: bool = True,
     legend_framealpha: float = 1.0,
-    legend_shadow: bool = True,
+    legend_shadow: bool = True,  # Changed to False to avoid black border
 ) -> None:
     """Configure matplotlib style and register the default qualitative colormap.
 

@@ -129,6 +129,19 @@ if [[ -n $(git status --porcelain) ]]; then
     die "Working tree is not clean. Commit or stash changes first."
 fi
 
+# Load PyPI tokens from agenix if available (devenv integration)
+if [[ -f "/run/user/1000/agenix/pypi-test-token" ]] || [[ -f "/run/user/1000/agenix/pypi-token" ]]; then
+    if [[ "$TEST_PYPI" == "true" ]] && [[ -f "/run/user/1000/agenix/pypi-test-token" ]]; then
+        export TWINE_USERNAME="__token__"
+        export TWINE_PASSWORD=""; TWINE_PASSWORD=$(cat /run/user/1000/agenix/pypi-test-token)
+        log_success "Loaded TestPyPI token from agenix"
+    elif [[ "$TEST_PYPI" == "false" ]] && [[ -f "/run/user/1000/agenix/pypi-token" ]]; then
+        export TWINE_USERNAME="__token__"
+        export TWINE_PASSWORD=""; TWINE_PASSWORD=$(cat /run/user/1000/agenix/pypi-token)
+        log_success "Loaded PyPI production token from agenix"
+    fi
+fi
+
 # Check if we have a version tag
 LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 if [[ -z "$LATEST_TAG" ]]; then
@@ -150,7 +163,7 @@ log_success "Required tools available (uv, twine)"
 # Check PyPI credentials if not skipping PyPI
 if [[ "$SKIP_PYPI" == "false" ]]; then
     if [[ -z "${TWINE_USERNAME:-}" ]] && [[ ! -f ~/.pypirc ]]; then
-        die "PyPI credentials not set. Set TWINE_USERNAME and TWINE_PASSWORD environment variables, or create ~/.pypirc"
+        die "PyPI credentials not set. Set TWINE_USERNAME and TWINE_PASSWORD environment variables, create ~/.pypirc, or ensure agenix secrets are available."
     fi
     log_success "PyPI credentials configured"
 fi

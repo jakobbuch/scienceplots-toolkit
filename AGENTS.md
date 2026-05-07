@@ -1,53 +1,41 @@
 # AI Agent Mandates
 
-As an AI agent in this repository, you MUST follow these core mandates at all
-costs. This project requires high precision in data handling and professional
-scientific visualization.
+This repository uses a specialized skill for all Python development and data visualization work.
 
-## Core Mandates
+## Primary Skill
 
-- **Path Handling**: ALWAYS use `pathlib.Path` for all path operations. Scripts
-  MUST work from any execution directory. NEVER use `os.chdir()`,
-  `sys.path.insert()`, or string concatenation for paths.
-- **Plotting Excellence**: Adhere strictly to the Matplotlib Object-Oriented
-  API and the project's custom styling. Professional LaTeX typesetting is
-  mandatory for all labels.
-- **Reliability**: All findings MUST be reproducible via permanent, executable
-  scripts.
+**ALWAYS use the [scienceplots-viz](.agents/skills/scienceplots-viz/SKILL.md) skill for:**
 
-## Task-Specific Instructions
+- Any Python coding tasks
+- Creating or modifying scripts
+- Data visualization and plotting
+- Implementation workflows
+- Coding standards and best practices
 
-**Mandatory Reading**: When working on tasks involving the areas below, you
-MUST read the corresponding instruction file to ensure compliance.
+The skill contains comprehensive instructions for:
 
-- **Coding & Style**: [.agents/instructions/coding-standards.instructions.md](.agents/instructions/coding-standards.instructions.md)
-  (Load for `**/*.py`)
-- **Workflow & Git**: [.agents/instructions/workflow.instructions.md](.agents/instructions/workflow.instructions.md)
-  (Load for all tasks)
-- **Documentation**: [.agents/instructions/documentation.instructions.md](.agents/instructions/documentation.instructions.md)
-  (Load for `**/*.{py,md}`)
-- **Plotting**: [.agents/instructions/plotting.instructions.md](.agents/instructions/plotting.instructions.md)
-  (Load for `**/*.py`)
-- **Data Handling**: [.agents/instructions/data-handling.instructions.md](.agents/instructions/data-handling.instructions.md)
-  (Load for `**/*.py`)
+- Path handling requirements
+- Plotting standards
+- Implementation workflows
+- Verification procedures
 
-## AI Agent Customization
+## How to Use
 
-This repository is designed to be tool-agnostic, supporting GitHub Copilot,
-Claude Code, Gemini CLI, etc.
-
-- **Skills**: Actively use project-specific skills like
-  [SciencePlots Visualization](.agents/skills/scienceplots-viz.md).
+1. **Trigger the skill** - It will automatically activate when you work on Python files or plotting tasks
+2. **Follow the skill instructions** - All coding and plotting standards are documented there
+3. **Use bundled resources** - Check `references/` for additional documentation
 
 ## Project Context
 
-Refer to these files for foundational information:
+- **Package**: `scienceplots_toolkit` - Publication-quality Matplotlib utilities
+- **Source**: `src/scienceplots_toolkit/`
+- **Examples**: `examples/`
+- **Documentation**: `README.md`, `PUBLICATION_PLAN.md`
 
-- [README.md](README.md): Project overview and usage.
-- [src/scienceplots_toolkit/](src/scienceplots_toolkit/): Main package source code.
-  - `style.py`: Matplotlib style configuration.
-  - `utils.py`: Common plotting helpers.
-  - `analysis.py`: Advanced analysis tools.
-- [examples/](examples/): Example scripts demonstrating package usage.
-- [PUBLICATION_PLAN.md](PUBLICATION_PLAN.md): PyPI publication workflow.
-- [CHANGELOG.md](CHANGELOG.md): Version history and changes.
+## Questions?
+
+Refer to:
+
+- [scienceplots-viz Skill](.agents/skills/scienceplots-viz/SKILL.md) - Complete implementation guide
+- [README.md](README.md) - Project overview
+- [PUBLICATION_PLAN.md](PUBLICATION_PLAN.md) - Publication workflow

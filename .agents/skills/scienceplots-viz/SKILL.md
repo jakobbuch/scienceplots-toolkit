@@ -1,11 +1,11 @@
 ---
 name: scienceplots-viz
-description: How to create scientific visualizations with SciencePlots and LaTeX. Use this skill whenever the user wants to create publication-quality plots, scientific figures, data visualizations with matplotlib, or needs to follow the project's strict plotting standards. This includes 24h load profiles, energy visualizations, quantile shading, statistical annotations, or any matplotlib plotting in this repository. Make sure to use this skill even if the user doesn't explicitly mention "SciencePlots" - if they're asking for plots, charts, or figures in this project, trigger this skill.
+description: How to create scientific visualizations with SciencePlots and LaTeX. Use this skill whenever the user wants to create publication-quality plots, scientific figures, data visualizations with matplotlib, or needs to follow the project's strict plotting standards. This includes 24h load profiles, energy visualizations, quantile shading, statistical annotations, or any matplotlib plotting in this repository. Also use this skill for any Python coding tasks in this project - it contains all the coding standards, path handling requirements, and implementation workflows. Make sure to use this skill even if the user doesn't explicitly mention "SciencePlots" - if they're asking for plots, charts, figures, or Python scripts in this project, trigger this skill.
 ---
 
 # SciencePlots Visualization
 
-A skill for creating publication-quality scientific visualizations using Matplotlib with SciencePlots styles and LaTeX typesetting.
+A skill for creating publication-quality scientific visualizations using Matplotlib with SciencePlots styles and LaTeX typesetting, and for implementing Python scripts following project standards.
 
 ## Domain
 
@@ -22,49 +22,55 @@ Use this skill whenever:
 - Adding statistical annotations (average, peak values)
 - Visualizing uncertainty with quantile shading
 - Following the project's plotting standards
+- **Writing any Python code in this repository**
+- **Creating or modifying scripts**
+- **Implementing data processing or analysis**
 
-## Core Principles
+## Core Mandates
+
+These are absolute requirements that MUST be followed in all implementations:
 
 ### Path Handling
 
 ALWAYS use `pathlib.Path` for all path operations. Scripts MUST work from any execution directory.
 
-**Never use:**
+**NEVER use:**
 
-- `os.chdir()`
-- `sys.path.insert()`
-- String concatenation for paths
+- `os.chdir()` - changing directory is forbidden
+- `sys.path.insert()` - manipulating import paths is forbidden
+- String concatenation for paths (e.g., `dir + "/" + file`)
 
-**Always use:**
+**ALWAYS use:**
 
 ```python
 from pathlib import Path
+
+# Correct - works from any directory
 OUTPUT_DIR = Path("output")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+# Correct - relative to script location
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR / "data"
 ```
 
-### Plotting API
+### Plotting Excellence
 
-ALWAYS use the Matplotlib Object-Oriented API:
+Adhere strictly to the Matplotlib Object-Oriented API and the project's custom styling:
 
-```python
-# Correct
-fig, ax = plt.subplots()
-ax.plot(x, y)
+- **ALWAYS** use `fig, ax = plt.subplots()` instead of `plt.plot()`
+- **ALWAYS** call `configure_matplotlib_style()` at the start
+- **ALWAYS** use professional LaTeX typesetting for labels
+- **ALWAYS** save plots using `save_plot(fig, filename)`
 
-# Incorrect
-plt.plot(x, y)
-```
+### Reliability
 
-### Style Configuration
+All findings MUST be reproducible via permanent, executable scripts:
 
-ALWAYS start by configuring the matplotlib style:
-
-```python
-from scienceplots_toolkit import configure_matplotlib_style
-
-configure_matplotlib_style(use_latex=True)  # or False for mathtext
-```
+- No interactive-only code
+- All scripts must be runnable from command line
+- Include `if __name__ == "__main__":` blocks
+- Document dependencies and usage
 
 ## Implementation Workflow
 
@@ -172,7 +178,7 @@ if __name__ == "__main__":
 
 ## Quality Checklist
 
-Before considering a visualization complete:
+Before considering a visualization or script complete:
 
 - [ ] Paths use `pathlib.Path` (not strings or `os.chdir()`)
 - [ ] British English spelling in docstrings
@@ -183,11 +189,13 @@ Before considering a visualization complete:
 - [ ] `plt.close(fig)` called after saving
 - [ ] Type hints present on all functions
 - [ ] Docstrings with Args sections
+- [ ] Script works from any execution directory
+- [ ] No `os.chdir()` or `sys.path.insert()` calls
 
 ## Bundled Resources
 
 - `scripts/` - Executable utilities for common tasks
-- `references/` - Documentation on matplotlib best practices
+- `references/` - Documentation on matplotlib best practices, coding standards
 - `assets/` - Templates and style configurations
 
 ## Related Files
@@ -196,3 +204,5 @@ Before considering a visualization complete:
 - `src/scienceplots_toolkit/utils.py` - Utility functions
 - `src/scienceplots_toolkit/analysis.py` - Analysis tools
 - `examples/` - Working example scripts
+- `PUBLICATION_PLAN.md` - PyPI publication workflow
+- `CHANGELOG.md` - Version history

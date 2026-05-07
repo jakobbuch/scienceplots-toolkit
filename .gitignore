@@ -57,7 +57,11 @@ devenv.local.yaml
 .direnv
 
 # pre-commit
+# pre-commit
 .pre-commit-config.yaml
 
 # devenv null directory (temporary interpreter issue)
 null/
+
+# AI agent session data
+.sisyphus/

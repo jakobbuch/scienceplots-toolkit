@@ -126,7 +126,7 @@ Changelog:
 
 ```bash
 # Push main branch and tags to GitHub
-git push github release --force --tags
+git push github main --force --tags
 ```bash
 
 ### Step 4: Build and Upload to PyPI
@@ -209,7 +209,7 @@ git push origin master
 git checkout main
 git cherry-pick <commit-hash>
 git tag -a v0.1.2 -m "v0.1.2 - Bugfix release"
-git push github release --force --tags
+git push github main --force --tags
 ```bash
 
 ### Scenario 2: Hotfix for Released Version
@@ -220,7 +220,7 @@ git checkout main
 # Make fix
 git commit -m "fix: critical hotfix for Y"
 git tag -a v0.1.3 -m "v0.1.3 - Hotfix"
-git push github release --force --tags
+git push github main --force --tags
 
 # Later merge back to master
 git checkout master
@@ -239,7 +239,7 @@ git checkout master
 git checkout main
 git reset --hard master  # Include all recent work
 git tag -a v1.0.0 -m "v1.0.0 - Major release with features A, B, C"
-git push github release --force --tags
+git push github main --force --tags
 ```bash
 
 ---
@@ -257,7 +257,7 @@ git fetch --all
 
 # Push to specific remote
 git push origin master      # Phabricator
-git push github release     # GitHub
+git push github main     # GitHub
 ```bash
 
 ### Branch Operations
@@ -267,10 +267,10 @@ git push github release     # GitHub
 git branch -vv
 
 # Create new main branch
-git checkout -b release
+git checkout -b main
 
 # Set upstream tracking
-git branch --set-upstream-to=github/main release
+git branch --set-upstream-to=github/main main
 
 # Switch branches
 git checkout master
@@ -308,7 +308,7 @@ git push github :refs/tags/v1.0.0
 
 ```bash
 git branch --set-upstream-to=origin/master master   # For master
-git branch --set-upstream-to=github/main release  # For release
+git branch --set-upstream-to=github/main main  # For release
 ```bash
 
 ### Force Push Rejected by Phabricator
@@ -319,7 +319,7 @@ git branch --set-upstream-to=github/main release  # For release
 
 ```bash
 # ✅ OK
-git push github release --force
+git push github main --force
 
 # ❌ Will fail
 git push origin master --force
@@ -331,7 +331,7 @@ git push origin master --force
 
 ```bash
 # If you pushed main branch to Phabricator by mistake
-git push origin :release  # Delete from Phabricator
+git push origin :main  # Delete from Phabricator
 
 # If you pushed master to GitHub by mistake
 git push github :master   # Delete from GitHub
@@ -353,7 +353,7 @@ git reset --hard origin/master  # Align with Phabricator
 ```bash
 # Rebuild clean history, then force push
 git reset --hard <desired-commit>
-git push github release --force
+git push github main --force
 ```bash
 
 ---
@@ -408,7 +408,7 @@ git push origin master
 git checkout main
 git reset --hard master          # Or cherry-pick
 git tag -a vX.Y.Z -m "Release"
-git push github release --force --tags
+git push github main --force --tags
 uv build
 uv run twine upload dist/*
 

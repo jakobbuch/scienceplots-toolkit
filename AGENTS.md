@@ -44,6 +44,10 @@ Claude Code, Gemini CLI, etc.
 Refer to these files for foundational information:
 
 - [README.md](README.md): Project overview and usage.
-- [MatplotlibStyle.py](MatplotlibStyle.py): Core styling engine.
-- [plotting_utils.py](plotting_utils.py): Common plotting helpers.
-- [profile_analysis.py](profile_analysis.py): Advanced analysis tools.
+- [src/scienceplots_toolkit/](src/scienceplots_toolkit/): Main package source code.
+  - `style.py`: Matplotlib style configuration.
+  - `utils.py`: Common plotting helpers.
+  - `analysis.py`: Advanced analysis tools.
+- [examples/](examples/): Example scripts demonstrating package usage.
+- [PUBLICATION_PLAN.md](PUBLICATION_PLAN.md): PyPI publication workflow.
+- [CHANGELOG.md](CHANGELOG.md): Version history and changes.

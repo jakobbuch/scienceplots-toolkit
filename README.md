@@ -1,6 +1,6 @@
 # SciencePlots Toolkit
 
-[![PyPI - Version](https://img.shields.io/pypi/v/scienceplots-toolkit.svg)](https://pypi.org/project/scienceplots-toolkit)
+[![PyPI - Version](https://img.shields.io/pypi/v/scienceplots-toolkit)](https://pypi.org/project/scienceplots-toolkit)
 [![Python Version](https://img.shields.io/pypi/pyversions/scienceplots-toolkit)](https://pypi.org/project/scienceplots-toolkit)
 [![License](https://img.shields.io/pypi/l/scienceplots-toolkit)](https://github.com/jakobbuch/scienceplots-toolkit/blob/main/LICENSE)
 

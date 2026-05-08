@@ -172,6 +172,8 @@ class TestAddStatsBox:
         assert "5.0" in text
         assert "10.0" in text
         plt.close(fig)
+
+
 class TestCreateMonthlyGrid:
     """Tests for create_monthly_grid function."""
 
@@ -185,8 +187,18 @@ class TestCreateMonthlyGrid:
         """Test that each axis has month label."""
         fig, axes = create_monthly_grid()
         months = [
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
         ]
         for ax, month in zip(axes, months):
             assert month in ax.get_title()

@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import scienceplots  # noqa: F401 - Required for matplotlib 'science' and 'ieee' styles
 from cmap import Colormap
 from cycler import cycler
+
 from .latex import PreambleManager
 
 # Default qualitative colormap used across plots

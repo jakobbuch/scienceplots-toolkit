@@ -1,20 +1,29 @@
 """Utility functions for saving and configuring plots."""
 
+import logging
 import shutil
 import subprocess
-import logging
 from pathlib import Path
 
+import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-
-import matplotlib.pyplot as plt
 
 # Constants
 OUTPUT_DIR = Path("output")
 MONTHS = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
 ]
 logger = logging.getLogger(__name__)
 
@@ -147,9 +156,7 @@ def check_system_requirements() -> dict:
         for pkg in required_packages:
             # Use kpsewhich to check if package is available
             check_result = subprocess.run(
-                ["kpsewhich", f"{pkg}.sty"],
-                capture_output=True,
-                text=True
+                ["kpsewhich", f"{pkg}.sty"], capture_output=True, text=True
             )
             if check_result.returncode != 0:
                 result["warnings"].append(f"Package {pkg} may not be installed")
@@ -163,19 +170,19 @@ def create_monthly_grid(
     sharey: bool = False,
 ) -> tuple[Figure, list[Axes]]:
     """Create a 4x3 grid of subplots for monthly profiles.
-    
+
     Each subplot is labeled with a month name, arranged chronologically:
     Jan-Feb-Mar (row 1), Apr-May-Jun (row 2), Jul-Aug-Sep (row 3),
     Oct-Nov-Dec (row 4).
-    
+
     Args:
         figsize: Figure size in inches (width, height). Defaults to (12, 16).
         sharex: Share x-axis across all subplots.
         sharey: Share y-axis across all subplots.
-    
+
     Returns:
         Tuple of (Figure, list of Axes) for easy iteration.
-    
+
     Example:
         >>> fig, axes = create_monthly_grid()
         >>> for ax in axes:
@@ -183,8 +190,8 @@ def create_monthly_grid(
     """
     fig, axes = plt.subplots(4, 3, figsize=figsize, sharex=sharex, sharey=sharey)
     axes_flat = axes.flatten()
-    
+
     for ax, month in zip(axes_flat, MONTHS):
         ax.set_title(month)
-    
+
     return fig, list(axes_flat)

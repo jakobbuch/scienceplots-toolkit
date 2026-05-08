@@ -128,8 +128,8 @@ def plot_seasonal_comparison(args: argparse.Namespace) -> None:
         ax.set_title(season)
         configure_24h_axis(ax)
 
-        h, l = ax.get_legend_handles_labels()
-        for hi, li in zip(h, l):
+        handles, legend_labels = ax.get_legend_handles_labels()
+        for hi, li in zip(handles, legend_labels):
             if li not in labels:
                 handles.append(hi)
                 labels.append(li)
@@ -226,16 +226,30 @@ def plot_with_stats(args: argparse.Namespace) -> None:
     # Left: Power in kW (values < 100 -> 1 decimal by format_value)
     x = np.arange(24)
     mean_power = 5.0 + 4.0 * np.exp(-((x - 19) ** 2) / 18)
-    plot_profile_with_quantiles(ax1, x, mean_power, mean_power * 0.85, mean_power * 1.15)
+    plot_profile_with_quantiles(
+        ax1, x, mean_power, mean_power * 0.85, mean_power * 1.15, label="Power"
+    )
     configure_24h_axis(ax1)
-    add_stats_box(ax1, avg=float(mean_power.mean()), peak=float(mean_power.max()), unit=r"\text{kW}")
+    add_stats_box(
+        ax1,
+        avg=float(mean_power.mean()),
+        peak=float(mean_power.max()),
+        unit=r"\text{kW}",
+    )
     ax1.set_ylabel(r"Load (units)")
 
     # Right: Energy in kWh (values >= 100 -> 0 decimals by format_value)
     mean_energy = mean_power * 24.0
-    plot_profile_with_quantiles(ax2, x, mean_energy, mean_energy * 0.85, mean_energy * 1.15)
+    plot_profile_with_quantiles(
+        ax2, x, mean_energy, mean_energy * 0.85, mean_energy * 1.15, label="Energy"
+    )
     configure_24h_axis(ax2)
-    add_stats_box(ax2, avg=float(mean_energy.mean()), peak=float(mean_energy.max()), unit=r"\text{kWh}")
+    add_stats_box(
+        ax2,
+        avg=float(mean_energy.mean()),
+        peak=float(mean_energy.max()),
+        unit=r"\text{kWh}",
+    )
 
     save_plot(fig, "orch_stats_formatting", output_dir)
     plt.close(fig)

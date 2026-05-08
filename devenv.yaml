@@ -7,5 +7,5 @@ inputs:
         follows: nixpkgs
   nixpkgs:
     url: github:cachix/devenv-nixpkgs/rolling
-  templates:
+  devenv-nix-environments:
     url: github:jakobbuch/devenv-nix-environments

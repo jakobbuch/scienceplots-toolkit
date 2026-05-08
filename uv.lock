@@ -603,6 +603,20 @@ wheels = [
 ]
 
 [[package]]
+name = "markdownlint-rs"
+version = "0.3.15"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3f/70/2836919a8d1654790de609219cf3de9d27e74247fe594c2f89bf3d7635e6/markdownlint_rs-0.3.15-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:be66b3a1df16977fb3d7b4c9c2a8fd81137f7f4bf082fd7c293f4fe4ba0c17e2", size = 1685414, upload-time = "2026-03-22T18:32:58.009Z" },
+    { url = "https://files.pythonhosted.org/packages/d5/82/7a79d56913b7330f521ccc77692ebabc0c62e6e7e41fa76927cab9441fa3/markdownlint_rs-0.3.15-py3-none-macosx_11_0_arm64.whl", hash = "sha256:98fb022b2ecd0efc0747663d2630967930b875d922f12666cb68a90a2ccc7ca2", size = 1554095, upload-time = "2026-03-22T18:32:52.572Z" },
+    { url = "https://files.pythonhosted.org/packages/df/b8/9a6426de86bb10866c1e573ea48baae32595728ed412e6b207cb62ace19a/markdownlint_rs-0.3.15-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6a4c8176c6121b9616a31b5edc4bab81c08bae80e95d3d8b0eea3a4a7b6f4f32", size = 1636903, upload-time = "2026-03-22T18:32:59.422Z" },
+    { url = "https://files.pythonhosted.org/packages/53/10/f06ed8dc9a23ef603ee91da8f375c1da836d87fee511314c05ff4e89bdc4/markdownlint_rs-0.3.15-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7f96493be8586e8358db4b42756f1482935fe95cdeeb028f5db531c8ea9a267f", size = 1769640, upload-time = "2026-03-22T18:32:55.61Z" },
+    { url = "https://files.pythonhosted.org/packages/57/08/2bd00d5a9cd9988109dcb79e30b9165246923e00e0c7b8c1ba342aa91c0c/markdownlint_rs-0.3.15-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:2fcdb11d1229c622565d927bf1d2d0a0990d23f7386dc595121c8e754a54e196", size = 1637558, upload-time = "2026-03-22T18:32:54.263Z" },
+    { url = "https://files.pythonhosted.org/packages/23/3e/1cbb7c49788f5b6c427f6747194a68921eca1ee230df5651b0acc627be7d/markdownlint_rs-0.3.15-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:01de9c496258545b0a6025d9db06d860804736e8bdfb7a2eb886b349bb6ba356", size = 1832489, upload-time = "2026-03-22T18:32:56.681Z" },
+    { url = "https://files.pythonhosted.org/packages/26/34/b3ffb8cc65ef20eea3ecbe85e24bf587b53bc36a4d8b7495bbe3adf97d7a/markdownlint_rs-0.3.15-py3-none-win_amd64.whl", hash = "sha256:d17b9f700b165b9a5db361a6475b00c698426d60d621f6b7a8773702455235b9", size = 1736552, upload-time = "2026-03-22T18:32:51.033Z" },
+]
+
+[[package]]
 name = "markupsafe"
 version = "3.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1218,6 +1232,7 @@ tests = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "markdownlint-rs" },
     { name = "numpy" },
     { name = "pre-commit" },
     { name = "pytest" },
@@ -1252,6 +1267,7 @@ provides-extras = ["dev", "tests"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "markdownlint-rs", specifier = ">=0.3.15" },
     { name = "numpy", specifier = ">=1.24" },
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "pytest", specifier = ">=8" },

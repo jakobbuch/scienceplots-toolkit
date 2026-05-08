@@ -21,8 +21,8 @@ github    git@github.com:jakobbuch/scienceplots-toolkit.git
 
 | Remote | Purpose | Access |
 |--------|---------|--------|
-| `origin` (Phabricator)   | Full development history, internal collaboration | TU Wien VCS          | (Phabricator) | Full development history, internal collaboration | TU Wien VCS |
-| `github` (GitHub)       | Clean release-only history, public distribution  | Public                 | (GitHub) | Clean release-only history, public distribution | Public |
+| `origin` (Phabricator) | Full development history, internal collaboration | TU Wien VCS |
+| `github` (GitHub) | Clean release-only history, public distribution | Public |
 
 ---
 

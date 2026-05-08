@@ -16,9 +16,7 @@ import pytest
 
 from scienceplots_toolkit import (
     configure_matplotlib_style,
-    generate_profile_grid,
     plot_profile_with_quantiles,
-    save_plot,
 )
 from scienceplots_toolkit.utils import (
     add_stats_box,

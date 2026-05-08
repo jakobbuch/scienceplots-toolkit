@@ -29,9 +29,10 @@ Example usage:
 import argparse
 import functools
 import logging
-from abc import ABC, abstractmethod
+from abc import ABC
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Protocol
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +113,11 @@ class BaseOrchestrator(ABC):
         self.args: argparse.Namespace | None = None
 
     def register_plot(
-        self, name: str, func: Callable, description: str = "", tags: list[str] | None = None
+        self,
+        name: str,
+        func: Callable,
+        description: str = "",
+        tags: list[str] | None = None,
     ) -> None:
         """Register a plot function for CLI execution.
 
@@ -199,7 +204,9 @@ class BaseOrchestrator(ABC):
             >>> orchestrator.run_plot("daily", args)
         """
         if name not in self.plots:
-            raise KeyError(f"Plot '{name}' not registered. Available: {list(self.plots.keys())}")
+            raise KeyError(
+                f"Plot '{name}' not registered. Available: {list(self.plots.keys())}"
+            )
 
         logger.info("Running plot: %s", name)
         self.plots[name]["func"](args)

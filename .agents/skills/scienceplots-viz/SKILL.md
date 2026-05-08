@@ -146,13 +146,13 @@ from scienceplots_toolkit.analysis import plot_profile_with_quantiles
 def main() -> None:
     """Generate example 24h load profile."""
     configure_matplotlib_style(use_latex=True)
-    
+
     # Generate mock data
     x = np.arange(24)
     mean = 5 + 3 * np.exp(-((x - 19) ** 2) / 20)
     q10 = mean * 0.8
     q90 = mean * 1.2
-    
+
     # Create plot
     fig, ax = plt.subplots(figsize=(10, 6))
     plot_profile_with_quantiles(
@@ -160,14 +160,14 @@ def main() -> None:
         label="Load Profile",
         color="C0"
     )
-    
+
     configure_24h_axis(ax)
     add_stats_box(ax, avg=mean.mean(), peak=mean.max(), unit=r"\text{kW}")
-    
+
     ax.set_xlabel(r"Time of Day (h)")
     ax.set_ylabel(r"Power Consumption (kW)")
     ax.legend()
-    
+
     # Save and cleanup
     save_plot(fig, "load_profile")
     plt.close(fig)

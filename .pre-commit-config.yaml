@@ -1,16 +1,51 @@
 repos:
   - repo: local
     hooks:
+      - id: markdownlint-rs
+        name: markdownlint-rs (check only)
+        language: system
+        entry: uv run mdlint check
+        files: \.md$
+        pass_filenames: true
+
+      - id: ruff
+        name: ruff (lint+fix)
+        language: system
+        entry: uv run ruff check --fix
+        types: [python]
+        pass_filenames: true
+
+      - id: ruff-format
+        name: ruff format
+        language: system
+        entry: uv run ruff format
+        types: [python]
+        pass_filenames: true
+
+      - id: ty
+        name: ty type check
+        language: system
+        entry: uv run ty check
+        pass_filenames: false
+        files: \.py$
+
+      - id: shellcheck
+        name: shellcheck
+        language: system
+        entry: uv run shellcheck
+        files: \.sh$
+        pass_filenames: true
+
       - id: pytest
         name: pytest
         entry: uv run pytest tests/ -v
         language: system
         pass_filenames: false
-        stages: [commit]
+        stages: [pre-commit]
 
       - id: pytest-visual
         name: pytest-visual
         entry: uv run pytest tests/test_visual_baselines.py -v
         language: system
         pass_filenames: false
-        stages: [push]
+        stages: [pre-push]

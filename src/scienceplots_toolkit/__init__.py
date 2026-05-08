@@ -18,6 +18,8 @@ from scienceplots_toolkit.analysis import (
     generate_profile_grid,
     plot_profile_with_quantiles,
 )
+from scienceplots_toolkit.cli import BaseOrchestrator, create_cli_parser, plot_function
+from scienceplots_toolkit.latex import PreambleManager
 from scienceplots_toolkit.style import (
     DEFAULT_QUAL_CMAP_NAME,
     configure_matplotlib_style,
@@ -30,10 +32,6 @@ from scienceplots_toolkit.utils import (
     configure_24h_axis,
     save_plot,
 )
-
-
-from scienceplots_toolkit.latex import PreambleManager
-from scienceplots_toolkit.cli import BaseOrchestrator, plot_function, create_cli_parser
 
 __version__ = "0.1.0"
 __author__ = "Jakob Buchmeier"

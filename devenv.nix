@@ -1,10 +1,10 @@
 { inputs, ... }:
 {
   imports = [
-    inputs.templates.devenvModules.python
-    inputs.templates.devenvModules.latex
-    inputs.templates.devenvModules.nix
-    inputs.templates.devenvModules.markdown
+    inputs.devenv-nix-environments.devenvModules.python
+    inputs.devenv-nix-environments.devenvModules.latex
+    inputs.devenv-nix-environments.devenvModules.nix
+    inputs.devenv-nix-environments.devenvModules.markdown
     inputs.devenv-nix-environments.devenvModules.local-hooks
   ];
 

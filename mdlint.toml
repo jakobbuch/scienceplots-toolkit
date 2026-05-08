@@ -1,0 +1,98 @@
+# mdlint configuration
+# See: https://github.com/swanysimon/mdlint/blob/main/mdlint.default.toml
+
+# Disable automatic fixes - we only want to check, not modify files
+fix = false
+
+# ---------------------------------------------------------------------------
+# Rule configuration
+# Disable rules that conflict with our documentation style and YAML frontmatter
+# ---------------------------------------------------------------------------
+
+# MD003 — Heading style
+# Disable to allow Setext-style headings in YAML frontmatter
+[rules.MD003]
+enabled = false
+
+# MD007 — Unordered list indentation
+# Disable to allow 3-space indentation in templates
+[rules.MD007]
+enabled = false
+
+# MD012 — Multiple consecutive blank lines
+# Disable to allow multiple blank lines in reports
+[rules.MD012]
+enabled = false
+
+# MD013 — Line length
+# Disable to allow long lines in documentation and code examples
+[rules.MD013]
+enabled = false
+
+# MD022 — Headings should be surrounded by blank lines
+# Disable to allow YAML frontmatter without blank lines
+[rules.MD022]
+enabled = false
+
+# MD026 — Trailing punctuation in heading
+# Disable to allow periods in skill file descriptions
+[rules.MD026]
+enabled = false
+
+# MD032 — Lists should be surrounded by blank lines
+# Disable for template flexibility
+[rules.MD032]
+enabled = false
+
+# MD036 — Emphasis used instead of a heading
+# Disable to allow bold text for emphasis in reports and specs
+[rules.MD036]
+enabled = false
+
+# MD041 — First line should be a heading
+# Disable to allow YAML frontmatter before first heading
+[rules.MD041]
+enabled = false
+
+# MD050 — Strong style
+# Disable to allow both ** and __ for strong emphasis
+[rules.MD050]
+enabled = false
+
+# MD052 — Reference link labels
+# Disable to allow reference-style links with dynamic labels
+[rules.MD052]
+enabled = false
+
+
+# MD055 — Table pipe borders
+# Disable to allow tables without border pipes
+[rules.MD055]
+enabled = false
+
+# MD031 — Fenced code blocks should be surrounded by blank lines
+# Disable for template flexibility
+[rules.MD031]
+enabled = false
+
+# MD040 — Fenced code blocks should have a language specified
+# Disable as not all code blocks are actual code
+[rules.MD040]
+enabled = false
+
+# MD058 — Table should be surrounded by blank lines
+# Disable for template flexibility
+[rules.MD058]
+enabled = false
+
+
+# MD029 — Ordered list item prefix
+# Disable to allow consistent numbering after nested lists
+[rules.MD029]
+enabled = false
+
+
+# MD005 — List item indentation
+# Disable to allow 3-space indentation in nested lists
+[rules.MD005]
+enabled = false

@@ -17,7 +17,6 @@ Example usage::
 
 from __future__ import annotations
 
-import sys
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -96,8 +95,8 @@ class PreambleManager:
         packages: tuple[str, ...] | None = None,
         sans_serif_math: bool = False,
     ) -> None:
-        self._packages: list[str] = list(packages) if packages else list(
-            _DEFAULT_PACKAGES
+        self._packages: list[str] = (
+            list(packages) if packages else list(_DEFAULT_PACKAGES)
         )
         self._sans_serif_math: bool = sans_serif_math
 

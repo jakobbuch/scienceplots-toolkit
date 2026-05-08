@@ -149,8 +149,22 @@ log_success "Required tools available (uv, twine)"
 
 # Check PyPI credentials if not skipping PyPI
 if [[ "$SKIP_PYPI" == "false" ]]; then
-    if [[ -z "${TWINE_USERNAME:-}" ]] && [[ ! -f ~/.pypirc ]]; then
-        die "PyPI credentials not set. Set TWINE_USERNAME and TWINE_PASSWORD environment variables, or create ~/.pypirc"
+    # Try to load tokens from agenix (devenv) if TWINE_PASSWORD not set
+    if [[ -z "${TWINE_PASSWORD:-}" ]] && [[ -f "${PYPI_TEST_TOKEN_FILE:-}" ]]; then
+        log_info "Loading PyPI token from agenix..."
+        export TWINE_USERNAME="__token__"
+        TWINE_PASSWORD="$(cat "$PYPI_TEST_TOKEN_FILE")"
+        export TWINE_PASSWORD
+    fi
+    if [[ -z "${TWINE_USERNAME:-}" ]] && [[ ! -f ~/.pypirc ]] && [[ -z "${TWINE_PASSWORD:-}" ]]; then
+        log_error "PyPI credentials not found"
+        echo ""
+        echo "Options to configure credentials:"
+        echo "  1. Run this script from devenv shell: devenv shell && ./scripts/release.sh --test"
+        echo "  2. Set environment variables: export TWINE_USERNAME=__token__ && export TWINE_PASSWORD=pypi-..."
+        echo "  3. Create ~/.pypirc file with your tokens"
+        echo ""
+        die "Aborted: PyPI credentials required"
     fi
     log_success "PyPI credentials configured"
 fi

@@ -150,11 +150,18 @@ log_success "Required tools available (uv, twine)"
 # Check PyPI credentials if not skipping PyPI
 if [[ "$SKIP_PYPI" == "false" ]]; then
     # Try to load tokens from agenix (devenv) if TWINE_PASSWORD not set
-    if [[ -z "${TWINE_PASSWORD:-}" ]] && [[ -f "${PYPI_TEST_TOKEN_FILE:-}" ]]; then
-        log_info "Loading PyPI token from agenix..."
-        export TWINE_USERNAME="__token__"
-        TWINE_PASSWORD="$(cat "$PYPI_TEST_TOKEN_FILE")"
-        export TWINE_PASSWORD
+    if [[ -z "${TWINE_PASSWORD:-}" ]]; then
+        if [[ -f "${PYPI_TEST_TOKEN_FILE:-}" ]]; then
+            log_info "Loading PyPI test token from agenix..."
+            export TWINE_USERNAME="__token__"
+            TWINE_PASSWORD="$(cat "$PYPI_TEST_TOKEN_FILE")"
+            export TWINE_PASSWORD
+        elif [[ -f "${PYPI_TOKEN_FILE:-}" ]]; then
+            log_info "Loading PyPI token from agenix (using production token for TestPyPI)..."
+            export TWINE_USERNAME="__token__"
+            TWINE_PASSWORD="$(cat "$PYPI_TOKEN_FILE")"
+            export TWINE_PASSWORD
+        fi
     fi
     if [[ -z "${TWINE_USERNAME:-}" ]] && [[ ! -f ~/.pypirc ]] && [[ -z "${TWINE_PASSWORD:-}" ]]; then
         log_error "PyPI credentials not found"

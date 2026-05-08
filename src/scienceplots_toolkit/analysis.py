@@ -1,10 +1,112 @@
 """Specialized functions for time-series visualization and analysis."""
 
+from dataclasses import dataclass
 from typing import Literal
 
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
+
+
+@dataclass
+class DailyStats:
+    """Daily statistics calculated from time-series data.
+
+    Attributes:
+        mean: Mean value for each unique time of day.
+        q10: 10th percentile for each unique time of day.
+        q90: 90th percentile for each unique time of day.
+        peak: Maximum value for each unique time of day.
+        min: Minimum value for each unique time of day.
+        timestamps: Unique timestamps (time of day) as numpy array.
+    """
+
+    mean: np.ndarray
+    q10: np.ndarray
+    q90: np.ndarray
+    peak: np.ndarray
+    min: np.ndarray
+    timestamps: np.ndarray
+
+
+def calculate_daily_stats(data: np.ndarray, timestamps: np.ndarray) -> DailyStats:
+    """Calculate daily statistics grouped by time of day.
+
+    Groups data by unique time-of-day values (hour:minute) and calculates
+    mean, 10th percentile, 90th percentile, peak, and minimum for each group.
+
+    Args:
+        data: 1D array of time-series data values.
+        timestamps: 1D array of timestamps corresponding to data values.
+                   Should be in the same units as data (e.g., datetime or
+                   numeric time representation).
+
+    Returns:
+        DailyStats object containing calculated statistics for each unique
+        time of day.
+
+    Raises:
+        ValueError: If data or timestamps are empty, or if shapes don't match.
+
+    Example:
+        >>> data = np.array([1.0, 2.0, 1.5, 2.5, 3.0])
+        >>> timestamps = np.array([0, 1, 0, 1, 2])  # hour groups
+        >>> stats = calculate_daily_stats(data, timestamps)
+        >>> stats.mean  # doctest: +SKIP
+        array([1.25, 2.25, 3.0])
+    """
+    # Validate inputs
+    if data.size == 0:
+        raise ValueError("Data array is empty")
+    if timestamps.size == 0:
+        raise ValueError("Timestamps array is empty")
+    if data.shape != timestamps.shape:
+        raise ValueError(
+            f"Data and timestamps must have the same shape. "
+            f"Got data.shape={data.shape}, timestamps.shape={timestamps.shape}"
+        )
+
+    # Handle single value case
+    if data.size == 1:
+        return DailyStats(
+            mean=data.copy(),
+            q10=data.copy(),
+            q90=data.copy(),
+            peak=data.copy(),
+            min=data.copy(),
+            timestamps=timestamps.copy(),
+        )
+
+    # Get unique timestamps and sort them
+    unique_timestamps = np.unique(timestamps)
+
+    # Initialize arrays for statistics
+    n_unique = len(unique_timestamps)
+    means = np.zeros(n_unique)
+    q10s = np.zeros(n_unique)
+    q90s = np.zeros(n_unique)
+    peaks = np.zeros(n_unique)
+    mins = np.zeros(n_unique)
+
+    # Calculate statistics for each unique timestamp
+    for i, ts in enumerate(unique_timestamps):
+        mask = timestamps == ts
+        group_data = data[mask]
+
+        means[i] = np.mean(group_data)
+        q10s[i] = np.percentile(group_data, 10)
+        q90s[i] = np.percentile(group_data, 90)
+        peaks[i] = np.max(group_data)
+        mins[i] = np.min(group_data)
+
+    return DailyStats(
+        mean=means,
+        q10=q10s,
+        q90=q90s,
+        peak=peaks,
+        min=mins,
+        timestamps=unique_timestamps,
+    )
 
 
 def plot_profile_with_quantiles(

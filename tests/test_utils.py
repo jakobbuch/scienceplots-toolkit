@@ -10,6 +10,7 @@ from scienceplots_toolkit.utils import (
     OUTPUT_DIR,
     add_stats_box,
     configure_24h_axis,
+    create_monthly_grid,
     save_plot,
 )
 
@@ -170,4 +171,29 @@ class TestAddStatsBox:
         text = ax.texts[0].get_text()
         assert "5.0" in text
         assert "10.0" in text
+        plt.close(fig)
+class TestCreateMonthlyGrid:
+    """Tests for create_monthly_grid function."""
+
+    def test_create_monthly_grid_returns_12_axes(self):
+        """Test that monthly grid creates 12 axes."""
+        fig, axes = create_monthly_grid()
+        assert len(axes) == 12
+        plt.close(fig)
+
+    def test_create_monthly_grid_month_labels(self):
+        """Test that each axis has month label."""
+        fig, axes = create_monthly_grid()
+        months = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        ]
+        for ax, month in zip(axes, months):
+            assert month in ax.get_title()
+        plt.close(fig)
+
+    def test_create_monthly_grid_custom_sharey(self):
+        """Test sharey parameter works."""
+        fig, axes = create_monthly_grid(sharey=True)
+        assert len(axes) == 12
         plt.close(fig)

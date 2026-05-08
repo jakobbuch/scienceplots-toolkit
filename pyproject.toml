@@ -13,6 +13,7 @@ requires-python = ">=3.12"
 dependencies = [
     "cmap>=0.6.2",
     "matplotlib>=3.10.7",
+    "numpy>=1.24",
     "scienceplots>=2.1.1",
 ]
 
@@ -50,6 +51,7 @@ tests = [
     "pytest>=8",
     "pytest-cov>=4",
     "numpy>=1.24",
+    "pytest-mpl>=0.18",
 ]
 
 [dependency-groups]
@@ -57,6 +59,7 @@ test = [
     "pytest>=8",
     "pytest-cov>=4",
     "numpy>=1.24",
+    "pytest-mpl>=0.18",
 ]
 dev = [
     { include-group = "test" },
@@ -66,6 +69,9 @@ dev = [
     "twine>=6.2.0",
 ]
 
+[tool.pytest.ini_options]
+addopts = "--mpl"
+mpl-baseline-path = "tests/baseline"
 [tool.hatch.version]
 source = "vcs"
 

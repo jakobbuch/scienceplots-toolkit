@@ -1,14 +1,38 @@
 """Utility functions for saving and configuring plots."""
 
+import shutil
+import subprocess
 import logging
 from pathlib import Path
 
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
+import matplotlib.pyplot as plt
+
 # Constants
 OUTPUT_DIR = Path("output")
+MONTHS = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+]
 logger = logging.getLogger(__name__)
+
+
+def format_value(value: float, unit: str) -> str:
+    """Format value based on unit type."""
+    # kW, kWh → 1 decimal for values < 100, 0 decimals for >= 100
+    if "kW" in unit or "kWh" in unit:
+        return f"{value:.1f}" if value < 100 else f"{value:.0f}"
+    # Temperature → 1 decimal
+    elif "°C" in unit or "C" in unit:
+        return f"{value:.1f}"
+    # Percentages → 1 decimal
+    elif "%" in unit:
+        return f"{value:.1f}"
+    # Default → 2 decimals
+    else:
+        return f"{value:.2f}"
 
 
 def save_plot(
@@ -68,9 +92,9 @@ def add_stats_box(
 
     """
     stats_text = (
-        rf"$\text{{Avg}}: {avg:.1f}\ {unit}$"
+        rf"$\text{{Avg}}: {format_value(avg, unit)}\ {unit}$"
         "\n"
-        rf"$\text{{Peak}}: {peak:.1f}\ {unit}$"
+        rf"$\text{{Peak}}: {format_value(peak, unit)}\ {unit}$"
     )
 
     # Convert loc string to coordinates if needed, or use ax.text with transform
@@ -96,3 +120,71 @@ def add_stats_box(
         horizontalalignment=ha,
         bbox=props,
     )
+
+
+def check_system_requirements() -> dict:
+    """Check if LaTeX and required packages are available.
+
+    Returns:
+        Dict with keys: 'available' (bool), 'missing' (list), 'warnings' (list)
+
+    Example:
+        >>> result = check_system_requirements()
+        >>> if not result['available']:
+        ...     print(f"Missing: {result['missing']}")
+    """
+    result = {"available": True, "missing": [], "warnings": []}
+
+    # Check executables
+    for exe in ["latex", "pdflatex"]:
+        if shutil.which(exe) is None:
+            result["missing"].append(exe)
+            result["available"] = False
+
+    # Check required packages (simplified - just check if kpsewhich works)
+    if result["available"]:
+        required_packages = ["amsmath", "siunitx", "gensymb"]
+        for pkg in required_packages:
+            # Use kpsewhich to check if package is available
+            check_result = subprocess.run(
+                ["kpsewhich", f"{pkg}.sty"],
+                capture_output=True,
+                text=True
+            )
+            if check_result.returncode != 0:
+                result["warnings"].append(f"Package {pkg} may not be installed")
+
+    return result
+
+
+def create_monthly_grid(
+    figsize: tuple[float, float] = (12, 16),
+    sharex: bool = False,
+    sharey: bool = False,
+) -> tuple[Figure, list[Axes]]:
+    """Create a 4x3 grid of subplots for monthly profiles.
+    
+    Each subplot is labeled with a month name, arranged chronologically:
+    Jan-Feb-Mar (row 1), Apr-May-Jun (row 2), Jul-Aug-Sep (row 3),
+    Oct-Nov-Dec (row 4).
+    
+    Args:
+        figsize: Figure size in inches (width, height). Defaults to (12, 16).
+        sharex: Share x-axis across all subplots.
+        sharey: Share y-axis across all subplots.
+    
+    Returns:
+        Tuple of (Figure, list of Axes) for easy iteration.
+    
+    Example:
+        >>> fig, axes = create_monthly_grid()
+        >>> for ax in axes:
+        ...     ax.plot([1, 2, 3])
+    """
+    fig, axes = plt.subplots(4, 3, figsize=figsize, sharex=sharex, sharey=sharey)
+    axes_flat = axes.flatten()
+    
+    for ax, month in zip(axes_flat, MONTHS):
+        ax.set_title(month)
+    
+    return fig, list(axes_flat)

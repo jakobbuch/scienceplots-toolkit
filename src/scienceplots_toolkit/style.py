@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import scienceplots  # noqa: F401 - Required for matplotlib 'science' and 'ieee' styles
 from cmap import Colormap
 from cycler import cycler
+from .latex import PreambleManager
 
 # Default qualitative colormap used across plots
 DEFAULT_QUAL_CMAP_NAME = "seaborn:tab10_new"
@@ -140,19 +141,8 @@ def configure_matplotlib_style(
     # Apply scienceplots style
     plt.style.use(styles)
 
-    # Build LaTeX preamble
-    preamble = (
-        r"\usepackage{amsmath,amssymb,amsfonts}"
-        r"\usepackage{textcomp}"
-        r"\usepackage{gensymb}"
-        r"\usepackage{siunitx}"
-        r"\usepackage{graphicx}"
-    )
-    if sans_serif_math:
-        # Switch both text and math to sans-serif in LaTeX
-        preamble += (
-            r"\usepackage{sansmath}\sansmath\renewcommand{\familydefault}{\sfdefault}"
-        )
+    # Build LaTeX preamble via PreambleManager
+    preamble = PreambleManager(sans_serif_math=sans_serif_math).build()
 
     # reference: https://matplotlib.org/stable/users/explain/customizing.html
     rc: dict = {

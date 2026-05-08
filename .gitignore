@@ -62,9 +62,6 @@ devenv.local.yaml
 # direnv
 .direnv
 
-# pre-commit
-# pre-commit
-.pre-commit-config.yaml
 
 # devenv null directory (temporary interpreter issue)
 null/
@@ -77,3 +74,10 @@ null/
 *.pyc
 __pycache__/
 output/readme/*.pdf
+
+# Test baselines (reference images for pytest-mpl) - TRACKED
+# Only ignore pycache in baseline directory
+!tests/baseline/*.png
+tests/baseline/__pycache__/
+# Only ignore pycache in baseline directory
+tests/baseline/__pycache__/

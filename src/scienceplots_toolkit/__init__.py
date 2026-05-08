@@ -26,9 +26,14 @@ from scienceplots_toolkit.style import (
 from scienceplots_toolkit.utils import (
     OUTPUT_DIR,
     add_stats_box,
+    check_system_requirements,
     configure_24h_axis,
     save_plot,
 )
+
+
+from scienceplots_toolkit.latex import PreambleManager
+from scienceplots_toolkit.cli import BaseOrchestrator, plot_function, create_cli_parser
 
 __version__ = "0.1.0"
 __author__ = "Jakob Buchmeier"
@@ -51,4 +56,10 @@ __all__ = [
     # Analysis
     "plot_profile_with_quantiles",
     "generate_profile_grid",
+    # LaTeX preamble
+    "PreambleManager",
+    # CLI
+    "BaseOrchestrator",
+    "plot_function",
+    "create_cli_parser",
 ]

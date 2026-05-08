@@ -312,6 +312,19 @@ uv run python -c "import scienceplots_toolkit; print(scienceplots_toolkit.__vers
 
 ---
 
+## Future Releases
+
+For next releases (v0.2.0, v1.0.0, etc.):
+
+   ```bash
+   git checkout --orphan release-v0.2.0
+   git reset
+   git add -A
+   git commit -m "release: v0.2.0"
+   git tag -a v0.2.0 -m "Version 0.2.0"
+   ./scripts/release.sh --production
+   ```
+
 ## GitHub Releases
 
 After pushing to GitHub, create a release page:

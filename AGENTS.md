@@ -30,7 +30,7 @@ The skill contains comprehensive instructions for:
 - **Package**: `scienceplots_toolkit` - Publication-quality Matplotlib utilities
 - **Source**: `src/scienceplots_toolkit/`
 - **Examples**: `examples/`
-- **Documentation**: `README.md`, `PUBLICATION_PLAN.md`
+**-Documentation**: `README.md`
 
 ## Questions?
 
@@ -38,4 +38,4 @@ Refer to:
 
 - [scienceplots-viz Skill](.agents/skills/scienceplots-viz/SKILL.md) - Complete implementation guide
 - [README.md](README.md) - Project overview
-- [PUBLICATION_PLAN.md](PUBLICATION_PLAN.md) - Publication workflow
+**-README.md**](README.md) - Project overview

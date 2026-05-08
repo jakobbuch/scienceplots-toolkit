@@ -15,7 +15,7 @@ This approach separates internal development from public releases while keeping 
 
 ```bash
 # Two remotes configured:
-origin    ssh://vcs@phabricator.ict.tuwien.ac.at/source/Scienceplots_with_Python_for_Latex.git
+origin    [REDACTED]
 github    git@github.com:jakobbuch/scienceplots-toolkit.git
 ```bash
 
@@ -422,4 +422,3 @@ uv run twine upload dist/*
 
 - [RELEASE.md](RELEASE.md) - Detailed release procedures
 - [PYPI_SETUP_WITH_AGENIX.md](PYPI_SETUP_WITH_AGENIX.md) - PyPI token management
-- [QUICK_START.md](QUICK_START.md) - Fast-track publication guide

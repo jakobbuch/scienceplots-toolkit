@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository uses a **dual-remote, dual-branch workflow** to maintain:
+This repository uses a **dual-remote, single-branch workflow** to maintain:
 
 - **Full development history** on TU Wien Phabricator (internal)
 - **Clean release history** on GitHub (public)
@@ -35,9 +35,9 @@ github    git@github.com:jakobbuch/scienceplots-toolkit.git
 - **History**: Complete development history with all commits
 - **Push target**: Phabricator only
 
-### `main` Branch (Publication)
+### `master` Branch (Publication)
 
-- **Tracks**: `github/main` (GitHub)
+- **Tracks**: `github/master` (GitHub)
 - **Purpose**: Publication-ready commits, clean release history
 - **History**: Curated, minimal commits for releases
 - **Push target**: GitHub only
@@ -54,10 +54,10 @@ github    git@github.com:jakobbuch/scienceplots-toolkit.git
 
 ### Solution
 
-Maintain two parallel branches:
+Use the **`master`** branch for both remotes:
 
-1. **`master`** on Phabricator: Full development history (never rewritten)
-2. **`main`** on GitHub: Clean release history (can be force-pushed)
+1. **Phabricator (`origin/master`)**: Full development history (never rewritten)
+2. **GitHub (`github/master`)**: Clean release history (force-pushed for releases)
 
 ### Benefits
 
@@ -98,8 +98,8 @@ git pull origin master
 ### Step 1: Prepare Main Branch
 
 ```bash
-# Switch to main branch
-git checkout main
+# Switch to master branch
+git checkout master
 
 # Option A: Reset to specific commit from master
 git log master --oneline  # Find the release commit
@@ -125,15 +125,15 @@ Changelog:
 ### Step 3: Push to GitHub
 
 ```bash
-# Push main branch and tags to GitHub
-git push github main --force --tags
+# Push master branch and tags to GitHub
+git push github master --force --tags
 ```bash
 
 ### Step 4: Build and Upload to PyPI
 
 ```bash
-# Ensure you're on main branch
-git checkout main
+# Ensure you're on master branch
+git checkout master
 
 # Build distribution
 uv build
@@ -174,20 +174,20 @@ Expected output:
 
 ```bash
 * master  0bfa237 [origin/master] chore: fix markdown duplicate heading
-  release e7f1259 [github/main] docs: update PyPI badge URL
+  release e7f1259 [github/master] docs: update PyPI badge URL
 ```bash
 
 ### Switch Between Branches in VS Code
 
 1. Click branch name in bottom-left status bar
-2. Select `master` or `main` from dropdown
+2. Select `master` or `master` from dropdown
 3. VS Code will switch context automatically
 
 ### Update Main Branch from Master
 
 ```bash
 # When master has new commits to include in next release
-git checkout main
+git checkout master
 git reset --hard master  # Or specific commit
 # Then tag and push as above
 ```bash
@@ -206,21 +206,21 @@ git commit -m "fix: resolve issue with X"
 git push origin master
 
 # Later, include in release
-git checkout main
+git checkout master
 git cherry-pick <commit-hash>
 git tag -a v0.1.2 -m "v0.1.2 - Bugfix release"
-git push github main --force --tags
+git push github master --force --tags
 ```bash
 
 ### Scenario 2: Hotfix for Released Version
 
 ```bash
-# Create hotfix directly on main branch
-git checkout main
+# Create hotfix directly on master branch
+git checkout master
 # Make fix
 git commit -m "fix: critical hotfix for Y"
 git tag -a v0.1.3 -m "v0.1.3 - Hotfix"
-git push github main --force --tags
+git push github master --force --tags
 
 # Later merge back to master
 git checkout master
@@ -236,10 +236,10 @@ git checkout master
 # ... multiple commits over time ...
 
 # When ready for release
-git checkout main
+git checkout master
 git reset --hard master  # Include all recent work
 git tag -a v1.0.0 -m "v1.0.0 - Major release with features A, B, C"
-git push github main --force --tags
+git push github master --force --tags
 ```bash
 
 ---
@@ -257,7 +257,7 @@ git fetch --all
 
 # Push to specific remote
 git push origin master      # Phabricator
-git push github main     # GitHub
+git push github master     # GitHub
 ```bash
 
 ### Branch Operations
@@ -266,15 +266,15 @@ git push github main     # GitHub
 # List branches with tracking info
 git branch -vv
 
-# Create new main branch
-git checkout -b main
+# Create new master branch
+git checkout -b master
 
 # Set upstream tracking
-git branch --set-upstream-to=github/main main
+git branch --set-upstream-to=github/master master
 
 # Switch branches
 git checkout master
-git checkout main
+git checkout master
 ```bash
 
 ### Tag Operations
@@ -308,7 +308,7 @@ git push github :refs/tags/v1.0.0
 
 ```bash
 git branch --set-upstream-to=origin/master master   # For master
-git branch --set-upstream-to=github/main main  # For release
+git branch --set-upstream-to=github/master master  # For release
 ```bash
 
 ### Force Push Rejected by Phabricator
@@ -319,7 +319,7 @@ git branch --set-upstream-to=github/main main  # For release
 
 ```bash
 # ✅ OK
-git push github main --force
+git push github master --force
 
 # ❌ Will fail
 git push origin master --force
@@ -330,8 +330,8 @@ git push origin master --force
 **Fix**:
 
 ```bash
-# If you pushed main branch to Phabricator by mistake
-git push origin :main  # Delete from Phabricator
+# If you pushed master branch to Phabricator by mistake
+git push origin :master  # Delete from Phabricator
 
 # If you pushed master to GitHub by mistake
 git push github :master   # Delete from GitHub
@@ -353,7 +353,7 @@ git reset --hard origin/master  # Align with Phabricator
 ```bash
 # Rebuild clean history, then force push
 git reset --hard <desired-commit>
-git push github main --force
+git push github master --force
 ```bash
 
 ---
@@ -363,16 +363,16 @@ git push github main --force
 ### ✅ Do
 
 - Develop on `master`, push to Phabricator
-- Create releases on `main` branch, push to GitHub
+- Create releases on `master` branch, push to GitHub
 - Test on TestPyPI before production releases
 - Use annotated tags (`-a`) with meaningful messages
-- Keep `main` branch minimal (only release-ready commits)
+- Keep `master` branch minimal (only release-ready commits)
 
 ### ❌ Don't
 
 - Force push to Phabricator (`origin`)
 - Push `master` to GitHub
-- Push `main` to Phabricator
+- Push `master` to Phabricator
 - Create lightweight tags (use `-a` for annotated)
 - Forget to build (`uv build`) before uploading to PyPI
 
@@ -387,7 +387,7 @@ Before publishing a release:
 - [ ] Type checking passes (`uv run ty check .`)
 - [ ] README updated with correct version
 - [ ] CHANGELOG.md updated (if maintained)
-- [ ] Release branch (main) updated/updated
+- [ ] Release branch (master) updated/updated
 - [ ] Annotated tag created with release notes
 - [ ] Uploaded to TestPyPI and verified
 - [ ] Uploaded to production PyPI
@@ -405,10 +405,10 @@ git checkout master
 git push origin master
 
 # Create release
-git checkout main
+git checkout master
 git reset --hard master          # Or cherry-pick
 git tag -a vX.Y.Z -m "Release"
-git push github main --force --tags
+git push github master --force --tags
 uv build
 uv run twine upload dist/*
 

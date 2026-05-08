@@ -11,11 +11,9 @@
     inputs.templates.devenvModules.markdown-hooks
   ];
 
+  # PyPI tokens decrypted by agenix (Home Manager)
   enterShell = ''
-    echo "Test project shell started"
-    echo "Testing uv accessibility:"
-    uv --version
-    echo "Testing nixfmt accessibility:"
-    nixfmt --version
+    export PYPI_TOKEN_FILE="/run/user/1000/agenix/pypi-token"
+    export PYPI_TEST_TOKEN_FILE="/run/user/1000/agenix/pypi-test-token"
   '';
 }

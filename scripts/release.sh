@@ -151,16 +151,27 @@ log_success "Required tools available (uv, twine)"
 if [[ "$SKIP_PYPI" == "false" ]]; then
     # Try to load tokens from agenix (devenv) if TWINE_PASSWORD not set
     if [[ -z "${TWINE_PASSWORD:-}" ]]; then
-        if [[ -f "${PYPI_TEST_TOKEN_FILE:-}" ]]; then
-            log_info "Loading PyPI test token from agenix..."
-            export TWINE_USERNAME="__token__"
-            TWINE_PASSWORD="$(cat "$PYPI_TEST_TOKEN_FILE")"
-            export TWINE_PASSWORD
-        elif [[ -f "${PYPI_TOKEN_FILE:-}" ]]; then
-            log_info "Loading PyPI token from agenix (using production token for TestPyPI)..."
-            export TWINE_USERNAME="__token__"
-            TWINE_PASSWORD="$(cat "$PYPI_TOKEN_FILE")"
-            export TWINE_PASSWORD
+        if [[ "$TEST_PYPI" == "true" ]]; then
+            # TestPyPI: prefer test token, fallback to production
+            if [[ -f "${PYPI_TEST_TOKEN_FILE:-}" ]]; then
+                log_info "Loading PyPI test token from agenix..."
+                export TWINE_USERNAME="__token__"
+                TWINE_PASSWORD="$(cat "$PYPI_TEST_TOKEN_FILE")"
+                export TWINE_PASSWORD
+            elif [[ -f "${PYPI_TOKEN_FILE:-}" ]]; then
+                log_warning "No test token found, using production token for TestPyPI..."
+                export TWINE_USERNAME="__token__"
+                TWINE_PASSWORD="$(cat "$PYPI_TOKEN_FILE")"
+                export TWINE_PASSWORD
+            fi
+        else
+            # Production: use production token
+            if [[ -f "${PYPI_TOKEN_FILE:-}" ]]; then
+                log_info "Loading PyPI production token from agenix..."
+                export TWINE_USERNAME="__token__"
+                TWINE_PASSWORD="$(cat "$PYPI_TOKEN_FILE")"
+                export TWINE_PASSWORD
+            fi
         fi
     fi
     if [[ -z "${TWINE_USERNAME:-}" ]] && [[ ! -f ~/.pypirc ]] && [[ -z "${TWINE_PASSWORD:-}" ]]; then

@@ -1,0 +1,60 @@
+# AI Agent Session Data
+.sisyphus/
+.agents/cache/
+.agents/tools/
+
+# Generated Output (agent-created plots)
+output/
+*.png
+*.pdf
+!tests/baseline/
+
+# Virtual Environments
+.venv/
+venv/
+.envrc
+.devenv/state/
+
+# Build Artifacts
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+Thumbs.db
+.desktop
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.log
+
+# Coverage and Testing
+.htmlcov/
+.coverage
+.pytest_cache/
+.mypy_cache/
+.ty_cache/
+
+# Documentation Build
+docs/_build/
+site/
+
+# Node Modules (if applicable)
+node_modules/
+
+# Lock Files (optional - uncomment if you want agents to ignore these)
+# uv.lock
+# PIPFILE.lock

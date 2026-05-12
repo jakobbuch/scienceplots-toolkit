@@ -227,7 +227,9 @@ def evaluate_skill_file(filepath: Path) -> EvaluationResult:
             pass_count=0,
             fail_count=len(EVALUATION_CHECKLIST),
             na_count=0,
-            details=[(name, False, "File does not exist") for name, _ in EVALUATION_CHECKLIST],
+            details=[
+                (name, False, "File does not exist") for name, _ in EVALUATION_CHECKLIST
+            ],
         )
 
     content = filepath.read_text()
@@ -277,7 +279,9 @@ def evaluate_skill_file(filepath: Path) -> EvaluationResult:
     )
 
 
-def evaluate_all_skills(skills_dir: Path, threshold: float = 70.0) -> list[EvaluationResult]:
+def evaluate_all_skills(
+    skills_dir: Path, threshold: float = 70.0
+) -> list[EvaluationResult]:
     """Evaluate all SKILL.md files in a directory."""
     results = []
 
@@ -403,7 +407,7 @@ def print_summary(results: list[EvaluationResult], threshold: float) -> None:
     passed = sum(1 for r in results if r.passed)
     avg_score = sum(r.score for r in results) / total if total > 0 else 0.0
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Summary: {passed}/{total} skills passed")
     print(f"Average score: {avg_score:.1f}%")
     print(f"Threshold: {threshold}%")

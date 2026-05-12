@@ -36,6 +36,14 @@ repos:
         files: \.sh$
         pass_filenames: true
 
+
+      - id: validate-standards
+        name: validate repository standards
+        language: system
+        entry: uv run python tools/agent/validate_standards.py
+        pass_filenames: false
+        stages: [pre-commit]
+
       - id: pytest
         name: pytest
         entry: uv run pytest tests/ -v

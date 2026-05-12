@@ -1,0 +1,81 @@
+# SciencePlots Toolkit Index
+
+High-signal entry points and documentation for AI agents.
+
+## Core Agent Instruction
+
+- [AGENTS.md](AGENTS.md): Root-level mandates and operational procedures
+- [.agents/skills/scienceplots-viz/SKILL.md](.agents/skills/scienceplots-viz/SKILL.md): Primary plotting skill - ALWAYS use for Python/plotting tasks
+- [CHANGELOG.md](CHANGELOG.md): Version history and structural changes
+- [CONTRIBUTING.md](CONTRIBUTING.md): Development standards and workflows
+
+## Capabilities & Workflows
+
+- [.agents/skills/](.agents/skills/): Agent skills and domain expertise
+  - [scienceplots-viz/SKILL.md](.agents/skills/scienceplots-viz/SKILL.md): Scientific visualization with Matplotlib and SciencePlots
+  - Skill includes: Path handling, plotting standards, implementation workflows, verification
+
+## Templates
+
+- [docs/templates/PLAN.md](docs/templates/PLAN.md): Implementation plan template with intent classification
+- [docs/templates/SPEC.md](docs/templates/SPEC.md): Feature specification template
+- [docs/templates/SKILL.md](docs/templates/SKILL.md): Skill identity and mandate template (2 layouts)
+
+## Project Documentation
+
+- [README.md](README.md): Human-centric project overview and quick start
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): System design and component mapping
+- [docs/PYTHON_STANDARDS.md](docs/PYTHON_STANDARDS.md): Source of truth for Python coding rules
+- [docs/API_DESIGN.md](docs/API_DESIGN.md): API design principles and visibility rules
+- [docs/PHILOSOPHY.md](docs/PHILOSOPHY.md): Engineering principles and philosophy
+- [GIT_WORKFLOW.md](GIT_WORKFLOW.md): Git operations and branching strategy
+
+## Source Code
+
+- [src/scienceplots_toolkit/](src/scienceplots_toolkit/): Core package
+  - [__init__.py](src/scienceplots_toolkit/__init__.py): Public API exports
+  - [style.py](src/scienceplots_toolkit/style.py): configure_matplotlib_style(), get_figsize()
+  - [utils.py](src/scienceplots_toolkit/utils.py): save_plot(), configure_24h_axis(), add_stats_box()
+  - [analysis.py](src/scienceplots_toolkit/analysis.py): plot_profile_with_quantiles(), generate_profile_grid()
+  - [latex.py](src/scienceplots_toolkit/latex.py): PreambleManager for LaTeX configuration
+  - [cli.py](src/scienceplots_toolkit/cli.py): CLI orchestrator and @plot_function decorator
+
+## Examples
+
+- [examples/](examples/): Working example scripts
+  - [example_basic.py](examples/example_basic.py): Basic plotting demonstrations
+  - [example_energy.py](examples/example_energy.py): Energy-specific profile plots
+  - [example_readme.py](examples/example_readme.py): README documentation plots
+  - [example_orchestrator.py](examples/example_orchestrator.py): Batch orchestration examples
+
+## Testing
+
+- [tests/](tests/): Test suite
+  - [test_style.py](tests/test_style.py): Style configuration tests
+  - [test_utils.py](tests/test_utils.py): Utility function tests
+  - [test_analysis.py](tests/test_analysis.py): Analysis module tests
+  - [test_visual_baselines.py](tests/test_visual_baselines.py): Visual regression tests
+  - [baseline/](tests/baseline/): Visual baseline reference images
+
+## Agent Tools
+
+- [tools/agent/](tools/agent/): Agent utilities and validation
+  - [validate_standards.py](tools/agent/validate_standards.py): Repository structure validation
+  - [validate_skill.py](tools/agent/validate_skill.py): SKILL.md structural validation
+  - [eval_skill.py](tools/agent/eval_skill.py): Skill quality evaluation
+
+## Output
+
+- [output/](output/): Generated plots (PNG + PDF)
+  - Created by scripts, excluded from git (see .aiignore)
+
+## Configuration
+
+- [pyproject.toml](pyproject.toml): Project configuration and dependencies
+- [.pre-commit-config.yaml](.pre-commit-config.yaml): Pre-commit hooks configuration
+- [.aiignore](.aiignore): AI agent session data exclusion
+
+## Related Files
+
+- [PUBLICATION_PLAN.md](PUBLICATION_PLAN.md): PyPI publication workflow
+- [RELEASE.md](RELEASE.md): Release process and versioning

@@ -208,9 +208,7 @@ def check_complete_example(content: str) -> tuple[bool, str | None]:
         # Check for a complete example (imports + main logic)
         if len(lines) >= 10:
             has_import = any("import" in line for line in lines)
-            has_main = any(
-                "def main" in line or "if __name__" in line for line in lines
-            )
+            # has_main = any(
             if has_import:
                 return True, None
 

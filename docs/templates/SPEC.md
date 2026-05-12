@@ -3,7 +3,7 @@ name: "Spec: [Feature Name]"
 description: "[Brief description of the feature or change]"
 type: "[feature | refactor | bugfix | documentation]"
 status: "[draft | proposed | approved | implemented]"
----
+
 
 # Specification: [Feature Name]
 
@@ -191,4 +191,4 @@ class NewStructure:
 | Date | Version | Change | Author |
 |------|---------|--------|--------|
 | YYYY-MM-DD | 1.0 | Initial spec | [Name] |
-| | | | |
+| YYYY-MM-DD | 1.0 | Initial spec | [Name] |

@@ -35,6 +35,7 @@ repos:
         entry: uv run shellcheck
         files: \.sh$
         pass_filenames: true
+        required: false  # Optional: shellcheck may not be installed
 
 
       - id: validate-standards
@@ -53,7 +54,7 @@ repos:
 
       - id: pytest-visual
         name: pytest-visual
-        entry: uv run pytest tests/test_visual_baselines.py -v
+        entry: uv run pytest tests/test_visual_baselines.py -v --no-cov  # Skip coverage for visual tests
         language: system
         pass_filenames: false
         stages: [pre-push]

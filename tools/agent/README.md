@@ -6,13 +6,13 @@ This directory contains scripts and utilities designed to be executed by AI agen
 
 Automated validator that enforces repository structure and standards compliance.
 
-### Usage
+### Usage (validate_standards.py)
 
 ```bash
 uv run python tools/agent/validate_standards.py
 ```
 
-### Validation Checks
+### Validation Checks (validate_standards.py)
 
 **Mandatory Files** (errors if missing):
 
@@ -48,7 +48,7 @@ uv run python tools/agent/validate_standards.py
 
 - Recommended hooks: ruff, pre-commit-hooks
 
-### Exit Codes
+### Exit Codes (validate_standards.py)
 
 - `0` — Repository is compliant
 - `1` — Validation errors found (check stderr for details)
@@ -61,7 +61,7 @@ This validator is integrated into the pre-commit pipeline and runs automatically
 
 Structural validator for SKILL.md files. Validates frontmatter, layout sections, markdown links, rule IDs, and identity sections.
 
-### Usage
+### Usage (validate_skill.py)
 
 ```bash
 # Validate a specific skill file
@@ -77,7 +77,7 @@ uv run python tools/agent/validate_skill.py --check-name "my-skill"
 uv run python tools/agent/validate_skill.py --dir .agents/skills/ --verbose
 ```
 
-### Validation Checks
+### Validation Checks (validate_skill.py)
 
 **Structural**:
 - YAML frontmatter (name, description fields)
@@ -114,7 +114,7 @@ uv run python tools/agent/validate_skill.py --check-name "my-custom-skill"
 # Name 'my-custom-skill' is valid.
 ```
 
-### Exit Codes
+### Exit Codes (validate_skill.py)
 
 - `0` — Skill (or all skills) is compliant
 - `1` — Validation errors found
@@ -123,7 +123,7 @@ uv run python tools/agent/validate_skill.py --check-name "my-custom-skill"
 
 Quality evaluator for SKILL.md files. Uses checklist-based scoring to assess skill completeness.
 
-### Usage
+### Usage (eval_skill.py)
 
 ```bash
 # Evaluate a specific skill file
@@ -160,7 +160,7 @@ Score = (Pass count) / (Pass + Fail count) × 100
 
 Default threshold is 70%. Customize with `--threshold`.
 
-### Exit Codes
+### Exit Codes (eval_skill.py)
 
 - `0` — Skill passes threshold
 - `1` — Skill fails threshold

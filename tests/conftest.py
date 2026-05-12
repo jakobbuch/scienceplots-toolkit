@@ -1,15 +1,16 @@
 """Shared fixtures and configuration for pytest test suite."""
 
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pytest
-import matplotlib.pyplot as plt
-from pathlib import Path
 
 
 @pytest.fixture(autouse=True)
 def close_figures():
     """Close all matplotlib figures after each test.
-    
+
     This fixture runs automatically for every test to prevent
     memory leaks from unclosed figures.
     """
@@ -20,7 +21,7 @@ def close_figures():
 @pytest.fixture
 def sample_data() -> np.ndarray:
     """Generate sample 1D data for testing.
-    
+
     Returns:
         Numpy array with 24 data points (simulating 24h profile)
     """
@@ -30,21 +31,21 @@ def sample_data() -> np.ndarray:
 @pytest.fixture
 def sample_2d_data() -> np.ndarray:
     """Generate sample 2D data for testing.
-    
+
     Returns:
         Numpy array with shape (24, 24) for heatmap testing
     """
     x = np.linspace(-3, 3, 24)
     y = np.linspace(-3, 3, 24)
-    X, Y = np.meshgrid(x, y)
-    Z = np.exp(-(X**2 + Y**2))
-    return Z
+    x_grid, y_grid = np.meshgrid(x, y)
+    z = np.exp(-(x_grid**2 + y_grid**2))
+    return z
 
 
 @pytest.fixture
 def daily_profile_data() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Generate mock daily profile data with quantiles.
-    
+
     Returns:
         Tuple of (x, mean, q10, q90) arrays
         - x: 24-hour time axis
@@ -63,7 +64,7 @@ def daily_profile_data() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray
 @pytest.fixture
 def multi_day_data() -> tuple[np.ndarray, np.ndarray]:
     """Generate mock multi-day time series data.
-    
+
     Returns:
         Tuple of (timestamps, data) arrays
         - timestamps: 7 days of hourly data (168 points)
@@ -81,10 +82,10 @@ def multi_day_data() -> tuple[np.ndarray, np.ndarray]:
 @pytest.fixture
 def tmp_output_dir(tmp_path: Path) -> Path:
     """Create temporary output directory for test plots.
-    
+
     Args:
         tmp_path: Pytest temporary directory fixture
-        
+
     Returns:
         Path to temporary output directory
     """
@@ -96,7 +97,7 @@ def tmp_output_dir(tmp_path: Path) -> Path:
 @pytest.fixture
 def sample_config() -> dict:
     """Generate sample configuration dictionary for testing.
-    
+
     Returns:
         Dictionary with common configuration parameters
     """
@@ -112,27 +113,39 @@ def sample_config() -> dict:
 @pytest.fixture
 def monthly_data() -> dict[str, np.ndarray]:
     """Generate mock monthly data for testing.
-    
+
     Returns:
         Dictionary mapping month names to data arrays
     """
-    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    
+    months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ]
+
     data = {}
     for i, month in enumerate(months):
         # Different pattern for each month
         base = 50 + i * 2  # Increasing trend through year
         variation = np.random.randn(24) * 5
         data[month] = base + variation
-    
+
     return data
 
 
 @pytest.fixture
-def statsBox_params() -> dict:
+def stats_box_params() -> dict:
     """Generate sample parameters for stats box testing.
-    
+
     Returns:
         Dictionary with stats box parameters
     """
@@ -146,7 +159,7 @@ def statsBox_params() -> dict:
 @pytest.fixture
 def quantile_data() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """Generate sample data for quantile shading tests.
-    
+
     Returns:
         Tuple of (x, mean, q10, q90) arrays for quantile plotting
     """
@@ -158,31 +171,18 @@ def quantile_data() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
 
 
 # Optional: Import test utilities if they exist
-try:
-    from .test_utils import compare_images, image_similarity
-except ImportError:
-    # Test utilities not available, define stubs
-    def compare_images(img1: np.ndarray, img2: np.ndarray) -> float:
-        """Compare two images and return similarity score.
-        
-        Args:
-            img1: First image array
-            img2: Second image array
-            
-        Returns:
-            Similarity score (0.0 to 1.0)
-        """
-        return 1.0 if np.array_equal(img1, img2) else 0.0
-    
-    def image_similarity(img1: np.ndarray, img2: np.ndarray, threshold: float = 0.95) -> bool:
-        """Check if two images are similar within threshold.
-        
-        Args:
-            img1: First image array
-            img2: Second image array
-            threshold: Similarity threshold (default: 0.95)
-            
-        Returns:
-            True if images are similar, False otherwise
-        """
-        return compare_images(img1, img2) >= threshold
+# Optional: Import test utilities if they exist
+# Disabled: test_utils module not needed
+# try:
+#     from .test_utils import compare_images, image_similarity
+# except ImportError:
+#     # Test utilities not available, define stubs
+#     def compare_images(img1: np.ndarray, img2: np.ndarray) -> float:
+#         """Compare two images and return similarity score."""
+#         return 1.0 if np.array_equal(img1, img2) else 0.0
+#
+#     def image_similarity(
+#         img1: np.ndarray, img2: np.ndarray, threshold: float = 0.95
+#     ) -> bool:
+#         """Check if two images are similar within threshold."""
+#         return compare_images(img1, img2) >= threshold

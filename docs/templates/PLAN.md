@@ -47,11 +47,11 @@ See `docs/INTENT_CLASSIFICATION.md` for full criteria.
 **Example**:
 
 - **Scope**: Focused on [specific goal] only; excludes [out of scope items]
-  - _Rationale_: Keeps work bounded and maintainable
+  - *Rationale*: Keeps work bounded and maintainable
 - **Automation-first**: Relies on tool-based verification rather than manual review
-  - _Rationale_: Ensures reproducible, objective compliance checks
+  - *Rationale*: Ensures reproducible, objective compliance checks
 - **Incremental updates**: Enhanced existing patterns rather than rewriting
-  - _Rationale_: Preserves institutional knowledge while improving clarity
+  - *Rationale*: Preserves institutional knowledge while improving clarity
 
 ## Rule Compliance
 
@@ -122,7 +122,7 @@ Before marking this plan complete, verify:
 - [ ] No pre-existing issues introduced
 - [ ] Documentation updated if needed
 
-**Cleanup**: _Note to Agent: Keep `PLAN.md` as an active-plan pointer and update it when the active plan changes. Do not delete this template._
+**Cleanup**: *Note to Agent: Keep `PLAN.md` as an active-plan pointer and update it when the active plan changes. Do not delete this template.*
 
 ---
 

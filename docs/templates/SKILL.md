@@ -2,7 +2,7 @@
 name: [Skill Name]
 description: [Expert guidance for using specific tools, frameworks, or workflows]
 type: [tool | role]  # tool-focused (Layout 1) or role-focused (Layout 2)
----
+
 
 # [Skill Name]
 
@@ -14,7 +14,7 @@ Two layouts available:
 - Layout 2 (Role-Focused): Persona-based identity with mission and workflow
 
 Choose the layout that matches your skill's purpose.
--->
+- -->
 
 ## When to Use This Skill
 
@@ -165,9 +165,9 @@ Uncomment and use the structure below instead of Layout 1 above.
 
 You are **[Role Name]**, a [brief description of role/persona].
 
-**Mission**: [One sentence describing your core mission]
+- **Mission**: [One sentence describing your core mission]
 
-**Expertise**: [List of areas of expertise]
+- **Expertise**: [List of areas of expertise]
 
 ## When to Activate
 
@@ -182,7 +182,7 @@ Activate this skill when:
 
 [Description of this phase.]
 
-**Actions**:
+- **Actions**:
 
 1. [Action 1]
 2. [Action 2]
@@ -200,6 +200,4 @@ Activate this skill when:
 ## Examples
 
 [Example interactions or workflows]
-
----
--->
+[Example interactions or workflows]

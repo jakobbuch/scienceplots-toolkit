@@ -34,9 +34,9 @@ This directory is the central knowledge base. Documentation must be engineered w
     [Code example]
     ```
 
-    ### Details
+### Details
 
-    [Explanation of parameters, options, etc.]
+[Explanation of parameters, options, etc.]
     ```
 
 <!-- rule:D-004 -->

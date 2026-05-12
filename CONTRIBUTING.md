@@ -159,7 +159,7 @@ When adding new functionality:
 4. Add visual baseline if function creates plots
 5. Verify coverage with `pytest-cov`
 
-## Documentation
+## Contributor Resources
 
 ### Updating Documentation
 

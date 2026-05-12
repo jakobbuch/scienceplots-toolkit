@@ -230,14 +230,14 @@ def create_monthly_profile(
     output_dir: Path = Path("output"),
 ) -> tuple["Figure", list["Axes"]]:
     """Create a 4×3 grid of monthly load profiles.
-    
+
     Args:
         data: Dictionary mapping month names to load data arrays
         output_dir: Directory to save output files
-        
+
     Returns:
         Tuple of (figure, axes_list)
-        
+
     Example:
         >>> data = {
         ...     "Jan": np.random.randn(24),
@@ -247,28 +247,28 @@ def create_monthly_profile(
         >>> fig, axes = create_monthly_profile(data)
     """
     from .utils import generate_profile_grid, save_plot
-    
+
     # Validate input
     if len(data) != 12:
         msg = f"Expected 12 months, got {len(data)}"
         raise ValueError(msg)
-    
+
     # Create 4×3 grid
     fig, axes = generate_profile_grid(n_rows=4, n_cols=3, figsize=(16, 12))
-    
+
     # Month order
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    
+
     # Plot each month
     for ax, month in zip(axes, months, strict=True):
         if month in data:
             ax.plot(data[month])
             ax.set_title(month)
-    
+
     # Save output
     save_plot(fig, output_dir / "monthly_profile", dpi=300)
-    
+
     return fig, axes
 ```
 
@@ -284,7 +284,7 @@ from scienceplots_toolkit.analysis import create_monthly_profile
 
 class TestCreateMonthlyProfile:
     """Tests for create_monthly_profile() function."""
-    
+
     def test_create_monthly_profile_valid_data(self, tmp_path):
         """Test with valid 12-month data."""
         # Arrange
@@ -293,30 +293,30 @@ class TestCreateMonthlyProfile:
             for month in ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         }
-        
+
         # Act
         fig, axes = create_monthly_profile(data, output_dir=tmp_path)
-        
+
         # Assert
         assert fig is not None
         assert len(axes) == 12
         assert (tmp_path / "monthly_profile.png").exists()
         assert (tmp_path / "monthly_profile.pdf").exists()
-    
+
     def test_create_monthly_profile_invalid_count(self, tmp_path):
         """Test with invalid number of months."""
         # Arrange
         data = {"Jan": np.random.randn(24)}  # Only 1 month
-        
+
         # Act & Assert
         with pytest.raises(ValueError, match="Expected 12 months"):
             create_monthly_profile(data, output_dir=tmp_path)
-    
+
     def test_create_monthly_profile_empty_data(self, tmp_path):
         """Test with empty data dictionary."""
         # Arrange
         data = {}
-        
+
         # Act & Assert
         with pytest.raises(ValueError, match="Expected 12 months"):
             create_monthly_profile(data, output_dir=tmp_path)
@@ -578,9 +578,9 @@ date: YYYY-MM-DD
 task: "Task description"
 agent: "Agent name"
 changelog: true|false
----
+```
 
-# Session: [Task Name]
+## Session: [Task Name]
 
 ## Summary
 
